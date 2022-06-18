@@ -1,0 +1,9 @@
+Log
+Started JamesMoment at 08/06/2022 16:49:35
+Details:
+- IP: 6000
+- Port: 6000
+- DevServer: False
+- DefaultGame: RPS
+- Whitelisted: False
+- Version: 0.1

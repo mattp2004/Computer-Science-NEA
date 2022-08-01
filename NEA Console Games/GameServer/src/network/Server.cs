@@ -1,4 +1,5 @@
 ﻿using GameServer.src.config;
+using GameServer.src.misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,10 +51,46 @@ namespace GameServer.src.network
             }
         }
 
+        public void Close()
+        {
+            if(Status == ServerStatus.RUNNING)
+            {
+                Status = ServerStatus.CLOSED;
+                Console.WriteLine("Shutting down the game server");
+            }
+        }
+
         public async Task AcceptConnection()
         {
             TcpClient client = await listener.AcceptTcpClientAsync();
             Console.WriteLine($"New connection from [{client.Client.RemoteEndPoint}] -> [0.0.0.0]");
+            Util.Log($"New connection from[{ client.Client.RemoteEndPoint}] -> [0.0.0.0]");
         }
+
+
+        #region Packets
+        public async Task SendPacket(TcpClient Client, Packet packet)
+        {
+
+        }
+        #endregion
+
+        #region Commands
+        public void SendMsg(TcpClient client, string Message)
+        {
+
+        }
+
+        public string RequestInput(TcpClient client)
+        {
+            return "t";
+        }
+
+        public bool Authenticate(TcpClient client)
+        {
+
+            return true;
+        }
+        #endregion
     }
 }

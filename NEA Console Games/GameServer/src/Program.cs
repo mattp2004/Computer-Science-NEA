@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameServer
@@ -14,7 +15,6 @@ namespace GameServer
     {
         static void Main()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
             BootUp();
             Server _server = new Server();
             _server.Run();
@@ -23,6 +23,9 @@ namespace GameServer
 
         public static void BootUp()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Server booting. This could take up to 5 seconds in order to make sure other instances have been killed.");
+            Thread.Sleep(350);
             if (!File.Exists("config.json"))
             {
                 Config.GenerateConfig();

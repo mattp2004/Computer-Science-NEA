@@ -1,8 +1,0 @@
-Started JamesMoment at 17/06/2022 20:39:26
-Details:
-- IP: localhost
-- Port: 6000
-- DevServer: False
-- DefaultGame: RPS
-- Whitelisted: False
-- Version: 0.1

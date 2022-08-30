@@ -1,0 +1,7 @@
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\obj\Debug\GameServer.csprojAssemblyReference.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\obj\Debug\GameServer.csproj.CoreCompileInputs.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\bin\Debug\GameServer.exe.config
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\bin\Debug\GameServer.exe
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\bin\Debug\GameServer.pdb
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\obj\Debug\GameServer.exe
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Prototype\GameServer\obj\Debug\GameServer.pdb

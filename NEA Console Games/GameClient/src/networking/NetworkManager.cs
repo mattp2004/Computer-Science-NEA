@@ -8,7 +8,6 @@ namespace GameClient.src.networking
 {
     class NetworkManager
     {
-
         public static void QuickPlay()
         {
             NetworkClient test = new NetworkClient("38.242.132.154", 6000);

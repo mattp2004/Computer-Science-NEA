@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -15,6 +16,12 @@ namespace GameServer.src.config
         public bool DevServer { get; set; }
         public string DefaultGame { get; set; }
         public bool Whitelisted { get; set; }
+        public WhitelistConfig Whitelist { get; set; }
+    }
+
+    class WhitelistConfig
+    {
+        public List<string> names;
     }
 
     class Config
@@ -31,7 +38,7 @@ namespace GameServer.src.config
         public static bool DevServer = false;
         public static string DefaultGame = "null";
         public static bool Whitelisted = false;
-
+        public static WhitelistConfig Whitelist = new WhitelistConfig();
         public static void UpdateConfig()
         {
             try
@@ -56,6 +63,7 @@ namespace GameServer.src.config
             newConfig.DevServer = false;
             newConfig.DefaultGame = "RPS";
             newConfig.Whitelisted = false;
+            newConfig.Whitelist = new WhitelistConfig();
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
@@ -76,6 +84,7 @@ namespace GameServer.src.config
             DevServer = configs.DevServer;
             DefaultGame = configs.DefaultGame;
             Whitelisted = configs.Whitelisted;
+            Whitelist = configs.Whitelist;
         }
     }
 }

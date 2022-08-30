@@ -10,17 +10,19 @@ namespace GameClient.src.networking
 {
     class NetworkClient
     {
-        public TcpClient Client;
         public string ServerIP;
         public int ServerPort;
 
+        public TcpClient Client;
         public bool Running = false;
 
         public NetworkClient(string ip, int port)
         {
             ServerIP = ip;
             ServerPort = port;
+
             Client = new TcpClient();
+            Running = false;
         }
 
         public void ConnectToServer()
@@ -38,5 +40,21 @@ namespace GameClient.src.networking
                 }
             }
         }
+
+        #region PacketHandling
+        private async Task SendPacket(Packet p)
+        {
+            try
+            {
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(p.ConvertToJson());
+                byte[] bufferLength = BitConverter.GetBytes(Convert.ToUInt16(jsonBytes.Length));
+
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+        #endregion
     }
 }

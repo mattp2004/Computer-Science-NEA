@@ -10,13 +10,13 @@ namespace GameServer.src.network
 {
     class Client
     {
-        public Client(TcpClient _client, Account _account)
+        public Client(TcpClient _client, string _uuid)
         {
             tcpClient = _client;
-            account = _account;
+            uuid = _uuid;
         } 
 
-        public Account account;
+        public string uuid;
         public TcpClient tcpClient;
     }
 }

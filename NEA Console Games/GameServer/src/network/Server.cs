@@ -88,9 +88,10 @@ namespace GameServer.src.network
                 }
                 else
                 {
-                    Account acc = new Account(authPacket.Message, "test", Rank.ADMIN, 0);
-                    Client t = new Client(client, acc);
-                    Clients.Add(t);
+                    string uuid = authPacket.Message;
+                    Client _client = new Client(client, uuid);
+                    Clients.Add(_client);
+                    Account a = AccountManager.FetchAccount(_client);
                     Console.WriteLine($"Authorised client [{client.Client.RemoteEndPoint}] with UUID: {authPacket.Message}");
                 }
             }

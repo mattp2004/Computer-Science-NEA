@@ -1,4 +1,5 @@
 ﻿using GameServer.src.account.stats;
+using GameServer.src.network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,23 @@ namespace GameServer.src.account
 {
     class Account
     {
+        private static Dictionary<Client, Account> cache = new Dictionary<Client, Account>();
+
+        private Client Client;
         private string UUID;
         private Stats AccountStats;
         private string Username;
         private Rank UserRank;
         private int Points;
 
-        public Account(ResultSet set)
+        public Account(ResultSet set, Client _client)
         {
             this.Username = set.username;
             this.UserRank = set.rank;
             this.Points = set.Points;
+            cache.Add(_client,this);
         }
+
         public Account(string name)
         {
             Username = name;
@@ -37,6 +43,21 @@ namespace GameServer.src.account
             AccountStats = accountStats;
             UserRank = _rank;
             Points = points;
+        }
+
+        public static Dictionary<Client, Account> GetCache()
+        {
+            return cache;
+        }
+
+        public static Account Get(Client _client)
+        {
+            if(_client == null) { return null; }
+            return cache[_client];
+        }
+        public void remove()
+        {
+            cache.Remove(Client);
         }
 
         public string GetName() { return Username; }

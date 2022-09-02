@@ -1,6 +1,9 @@
-﻿using System;
+﻿using GameServer.src.misc;
+using GameServer.src.network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,26 +11,27 @@ namespace GameServer.src.account
 {
     class AccountManager
     {
-        public static Dictionary<TcpClient, Account> _userAccounts = new Dictionary<TcpClient, Account>();
+        private static AccountRepository repository;
 
-        public static void AddAccount(TcpClient client, Account account)
+        public static Account FetchAccount(Client _client)
         {
-            _userAccounts.Add(client, account);
-        }
-
-        public static void RemoveAccount(TcpClient client)
-        {
-            _userAccounts.Remove(client);
-        }
-
-        public static Account GetAccount(TcpClient client)
-        {
-            return _userAccounts[client];
-        }
-
-        public static void GivePoints(Account acc, int num)
-        {
-            acc.AddPoints(num);
+            if (Account.GetCache().ContainsKey(_client))
+            {
+                return Account.GetCache()[_client];
+            }
+            else
+            {
+                repository.LoadAccount(_client);
+                try
+                {
+                    return Account.GetCache()[_client];
+                }
+                catch(Exception e)
+                {
+                    Util.Error(e);
+                }
+            }
+            return null;
         }
     }
 }

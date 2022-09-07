@@ -10,6 +10,14 @@ using System.Threading.Tasks;
 
 namespace GameServer.src
 {
+
+    enum Status
+    {
+        BOOTING,
+        RUNNING,
+        STOPPED
+    }
+
     class Server
     {
 
@@ -20,7 +28,7 @@ namespace GameServer.src
         private string Name;
         public Random rng = new Random();
 
-        public bool Running { get; private set; }
+        public Status ServerStatus { get; private set; }
 
         public Server(string name, int port)
         {
@@ -28,7 +36,7 @@ namespace GameServer.src
 
             this.Name = name;
             this.Port = port;
-            Running = false;
+            ServerStatus = Status.BOOTING;
 
             listener = new TcpListener(IPAddress.Any, port);
         }
@@ -38,8 +46,8 @@ namespace GameServer.src
         {
             Console.WriteLine("Game Server started on port 8000");
             listener.Start();
-            Running = true;
-            while (Running)
+            ServerStatus = Status.RUNNING;
+            while (ServerStatus == Status.RUNNING)
             {
                 if (listener.Pending())
                 {

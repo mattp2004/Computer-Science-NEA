@@ -14,36 +14,36 @@ namespace GameServer.src.account
         private static Dictionary<Client, Account> cache = new Dictionary<Client, Account>();
 
         private Client Client;
+        private int id;
         private string UUID;
-        private Stats AccountStats;
         private string Username;
+        private string Password;
         private Rank UserRank;
-        private int Points;
+        private int Tokens;
 
         public Account(ResultSet set, Client _client)
         {
+            this.Client = _client;
+            this.id = set.id;
+            this.UUID = set.uuid;
             this.Username = set.username;
+            this.Password = set.password;
             this.UserRank = set.rank;
-            this.Points = set.Points;
+            this.Tokens = set.tokens;
             cache.Add(_client,this);
         }
-
-        public Account(string name)
-        {
-            Username = name;
-        }
-        public Account(string uuid, string name, Rank _rank, int points, Stats accountStats = null)
-        {
-            UUID = uuid;
-            Username = name;
-            if (accountStats == null)
-            {
-                AccountStats = new Stats();
-            }
-            AccountStats = accountStats;
-            UserRank = _rank;
-            Points = points;
-        }
+        //public Account(string uuid, string name, Rank _rank, int points, Stats accountStats = null)
+        //{
+        //    UUID = uuid;
+        //    Username = name;
+        //    if (accountStats == null)
+        //    {
+        //        AccountStats = new Stats();
+        //    }
+        //    AccountStats = accountStats;
+        //    UserRank = _rank;
+        //    Points = points;
+        //}
 
         public static Dictionary<Client, Account> GetCache()
         {
@@ -55,17 +55,18 @@ namespace GameServer.src.account
             if(_client == null) { return null; }
             return cache[_client];
         }
+
         public void remove()
         {
             cache.Remove(Client);
         }
 
         public string GetName() { return Username; }
-        public Stats GetStatsObj() { return AccountStats; }
+        //public Stats GetStatsObj() { return AccountStats; }
 
-        public void AddPoints(int num) { Points += num; }
-        public void RemovePoints(int num) { Points -= num; }
-        public void SetPoints(int num) { Points = num; }
+        //public void AddPoints(int num) { Tokens += num; }
+        //public void RemovePoints(int num) { Tokens -= num; }
+        //public void SetPoints(int num) { Tokens = num; }
 
 
     }

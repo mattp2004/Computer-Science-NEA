@@ -59,6 +59,8 @@
     <Compile Include="src\account\stats\Stats.cs" />
     <Compile Include="src\account\stats\StatsManager.cs" />
     <Compile Include="src\config\Config.cs" />
+    <Compile Include="src\data\MySQL\DbConfig.cs" />
+    <Compile Include="src\data\MySQL\SQLController.cs" />
     <Compile Include="src\misc\Util.cs" />
     <Compile Include="src\network\Client.cs" />
     <Compile Include="src\network\Packet.cs" />
@@ -71,6 +73,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\data\Redis\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

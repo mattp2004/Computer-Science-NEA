@@ -18,5 +18,10 @@ namespace GameServer.src.network
 
         public string uuid;
         public TcpClient tcpClient;
+
+        public Account GetAccount()
+        {
+            return Account.Get(this);
+        }
     }
 }

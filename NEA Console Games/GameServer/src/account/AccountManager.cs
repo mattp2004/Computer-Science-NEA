@@ -11,7 +11,6 @@ namespace GameServer.src.account
 {
     class AccountManager
     {
-        private static AccountRepository repository;
 
         public static Account FetchAccount(Client _client)
         {
@@ -21,7 +20,7 @@ namespace GameServer.src.account
             }
             else
             {
-                repository.LoadAccount(_client);
+                AccountRepository.LoadAccount(_client);
                 try
                 {
                     return Account.GetCache()[_client];

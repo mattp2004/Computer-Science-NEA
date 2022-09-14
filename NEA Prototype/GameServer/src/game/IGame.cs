@@ -21,7 +21,7 @@ namespace GameServer.src.game
         bool AddPlayer(TcpClient player);
 
         void DisconnectClient(TcpClient client);
-        void Run();
+        void Start();
         #endregion // Functions
     }
 }

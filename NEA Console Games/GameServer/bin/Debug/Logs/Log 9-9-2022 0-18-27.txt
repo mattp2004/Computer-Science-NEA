@@ -1,0 +1,8 @@
+Started GameServer at 09/09/2022 00:18:27
+Details:
+- IP: localhost
+- Port: 6000
+- DevServer: False
+- DefaultGame: RPS
+- Whitelisted: False
+- Version: 0.1

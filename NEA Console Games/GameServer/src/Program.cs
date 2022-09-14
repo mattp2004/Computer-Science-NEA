@@ -19,8 +19,8 @@ namespace GameServer
         //public static OdbcConnection conn = new System.Data.Odbc.OdbcConnection("DRIVER={MySQL ODBC 5.3 ANSI Driver};SERVER=localhost;PORT=3306;DATABASE=data;USER=GameServer;PASSWORD=YZ3L0AYN5cMCSOQZ;OPTION=3;");
         static void Main()
         {
-            OdbcConnection conn = new System.Data.Odbc.OdbcConnection("DRIVER={MySQL ODBC 5.3 ANSI Driver};SERVER=localhost;PORT=3306;DATABASE=data;USER=root;PASSWORD=root;OPTION=3;");
-            conn.Open();
+            //OdbcConnection conn = new System.Data.Odbc.OdbcConnection("DRIVER={MySQL ODBC 5.3 ANSI Driver};SERVER=localhost;PORT=3306;DATABASE=data;USER=root;PASSWORD=root;OPTION=3;");
+            //conn.Open();
             //Client temp = new Client(new TcpClient(), "test");
             //Account a = AccountManager.FetchAccount(temp);
             //Console.WriteLine(a.GetName());

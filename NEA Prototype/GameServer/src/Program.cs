@@ -14,7 +14,7 @@ namespace GameServer
         static void Main(string[] args)
         {
             Server gameServer = new Server("Staging", 8000);
-            gameServer.Run();
+            gameServer.Boot();
         }
     }
 }

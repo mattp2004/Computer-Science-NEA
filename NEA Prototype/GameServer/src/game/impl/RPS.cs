@@ -25,7 +25,7 @@ namespace GameServer.src.game.impl
             throw new NotImplementedException();
         }
 
-        public void Run()
+        public void Start()
         {
             throw new NotImplementedException();
         }

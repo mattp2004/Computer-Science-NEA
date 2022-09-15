@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameServer.src.network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -9,6 +10,12 @@ namespace GameServer.src.game.impl
 {
     class RPS : IGame
     {
+        Random rng;
+        Server serverInstance;
+        List<TcpClient> Players = new List<TcpClient>();
+        Status GameStatus;
+        //Properties
+        #region properties
         public string GameName
         {
             get { return "Rock, Paper, Scissors"; }
@@ -21,17 +28,15 @@ namespace GameServer.src.game.impl
         {
             get { return 2; }
         }
+        #endregion
 
         public RPS(Server server)
         {
             Players = new List<TcpClient>();
             serverInstance = server;
             rng = new Random();
+            GameStatus = Status.STOPPED;
         }
-
-        Random rng;
-        Server serverInstance;
-        List<TcpClient> Players = new List<TcpClient>();
 
         public bool AddPlayer(TcpClient player)
         {
@@ -51,6 +56,15 @@ namespace GameServer.src.game.impl
         public void Start()
         {
             Server.SendMessageAll(Players, "WELCOME TO RPS");
+            Dictionary<TcpClient, string> Responses = new Dictionary<TcpClient, string>();
+            GameStatus = Status.RUNNING;
+            Responses = Server.RequestInputAll(Players, "Please pick either R/P/S");
+            //for(int i = 0; i < Players.Count; i++)
+            //{
+            //    Responses[Players[i]] = Server.RequestInput(Players[i], "enter rps").GetAwaiter().GetResult();
+            //}
+            Server.SendMessageAll(Players, $"PLAYER 1 CHOSE: ${Responses[Players[0]]}");
+            Server.SendMessageAll(Players, $"PLAYER 2 CHOSE: ${Responses[Players[1]]}");
         }
     }
 }

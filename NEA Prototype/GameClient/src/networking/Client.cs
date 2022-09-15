@@ -106,18 +106,16 @@ namespace GameClient.src
                     {
                         Console.WriteLine(packet.Content);
                     }
-                    if(packet.Type == "cmd")
+                    if(packet.Type == "input")
                     {
-                        //Checks if the command is requesting input
-                        if (packet.Content == "input")
-                        {
-                            //Takes in an input
-                            Console.WriteLine(packet.Content);
-                            string Response = Console.ReadLine();
-                            //Returns that input to the server through a Response Packet
-                            Packet resp = new Packet("input", Response);
-                            await SendPacket(resp);
-                        }
+                        //Takes in an input
+                        Console.WriteLine(packet.Content);
+                        Console.WriteLine(">");
+
+                        string Response = Console.ReadLine();
+                        //Returns that input to the server through a Response Packet
+                        Packet resp = new Packet("input", Response);
+                        await SendPacket(resp);
                     }
                     if(packet.Type == "disconnect")
                     {

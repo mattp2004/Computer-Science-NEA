@@ -33,11 +33,13 @@ namespace GameServer.src
         private int Port;
         private string Name;
         public Random rng = new Random();
+        private static bool inputting;
 
         public Status ServerStatus { get; private set; }
 
         public Server(string name, int port)
         {
+            inputting = false;
             Game = new RPS(this);
             instance = this;
             this.Name = name;
@@ -65,6 +67,7 @@ namespace GameServer.src
 
             while (ServerStatus == Status.RUNNING)
             {
+                if (!inputting) { ConsoleInput(); }
                 UpdateTitleStatus();
                 //Checks if there are any join requests on the listener
                 if (listener.Pending())
@@ -89,6 +92,7 @@ namespace GameServer.src
                         }
                     }
                     Thread gameThread = new Thread(new ThreadStart(Game.Start));
+                    gameThread.Name = $"{Game.GameName}";
                     gameThread.Start();
                     Games.Add(gameThread);
                     UpdateTitleStatus();
@@ -109,6 +113,28 @@ namespace GameServer.src
             listener.Stop();
             UpdateTitleStatus();
 
+        }
+
+        private async Task ConsoleInput()
+        {
+            inputting = true;
+            await Task.Delay(1);
+            Console.Write(">");
+            string command = await Console.In.ReadLineAsync();
+            ConsoleCommand(command);
+            inputting = false;
+        }
+
+        private void ConsoleCommand(string command)
+        {
+            if(command == "help")
+            {
+                Console.WriteLine("HELPING");
+            }
+            else if(command == "games")
+            {
+                Console.WriteLine($"{Games[0].Name}");
+            }
         }
 
         public bool isDisconnected(TcpClient client)
@@ -163,8 +189,7 @@ namespace GameServer.src
 
             //Sends welcome message packet
             string msg = String.Format($"Welcome to the {Name} Game Server");
-            Packet t = new Packet("msg", "Welcome");
-            SendPacket(newClient, t);
+            Server.SendMessage(newClient, msg);
 
             //Adds client to the list of clients
             clients.Add(newClient);
@@ -241,9 +266,33 @@ namespace GameServer.src
             instance.SendPacket(client,new Packet("msg", msg));
         }
 
-        public static void RequestInput(TcpClient client, string msg)
+        public static async Task<string> RequestInput(TcpClient client, string msg)
         {
+            string response = "";
             instance.SendPacket(client, new Packet("input", msg));
+            Packet RequestPacket = new Packet("input", msg);
+            Task Request = instance.SendPacket(client, RequestPacket);
+            Request.GetAwaiter().GetResult();
+            Packet Answer = instance.ReceivePacket(client).GetAwaiter().GetResult();
+            Thread.Sleep(10);
+            response += Answer.Content;
+            return response;
+        }
+
+        public static Dictionary<TcpClient, string> RequestInputAll(List<TcpClient> clients, string msg)
+        {
+            Dictionary<TcpClient, string> result = new Dictionary<TcpClient, string>();
+            List<Task> InputTasks = new List<Task>();
+            for (int i = 0; i < clients.Count; i++)
+            {
+                //Packet RequestPacket = new Packet("input", msg);
+                //Task Request = instance.RequestInput(clients[i], msg);
+                //Request.GetAwaiter().GetResult();
+                //Task t = RequestInput(clients[i], msg);
+                string ans = Server.RequestInput(clients[i],msg).GetAwaiter().GetResult();
+                result.Add(clients[i], ans);
+            }
+            return result;
         }
     }
 

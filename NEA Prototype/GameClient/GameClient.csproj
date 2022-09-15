@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Client.cs" />
-    <Compile Include="src\Packet.cs" />
+    <Compile Include="src\networking\Client.cs" />
+    <Compile Include="src\networking\Packet.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

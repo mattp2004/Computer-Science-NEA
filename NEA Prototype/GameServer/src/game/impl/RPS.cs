@@ -9,25 +9,48 @@ namespace GameServer.src.game.impl
 {
     class RPS : IGame
     {
-        public string Name => throw new NotImplementedException();
+        public string GameName
+        {
+            get { return "Rock, Paper, Scissors"; }
+        }
+        public int MaxPlayers
+        {
+            get { return 2; }
+        }
+        public int RequiredPlayers
+        {
+            get { return 2; }
+        }
 
-        public int RequiredPlayers => throw new NotImplementedException();
+        public RPS(Server server)
+        {
+            Players = new List<TcpClient>();
+            serverInstance = server;
+            rng = new Random();
+        }
 
-        public int MaxPlayers => throw new NotImplementedException();
+        Random rng;
+        Server serverInstance;
+        List<TcpClient> Players = new List<TcpClient>();
 
         public bool AddPlayer(TcpClient player)
         {
-            throw new NotImplementedException();
+            if (!Players.Contains(player))
+            {
+                Players.Add(player);
+                return true;
+            }
+            return false;
         }
 
         public void DisconnectClient(TcpClient client)
         {
-            throw new NotImplementedException();
+            Players.Remove(client);
         }
 
         public void Start()
         {
-            throw new NotImplementedException();
+            Server.SendMessageAll(Players, "WELCOME TO RPS");
         }
     }
 }

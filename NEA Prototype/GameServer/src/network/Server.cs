@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameServer.src
@@ -21,10 +23,13 @@ namespace GameServer.src
 
     class Server
     {
-
+        private static Server instance;
         private TcpListener listener;
-        private IGame nextGame;
-        private List<TcpClient> players = new List<TcpClient>();
+        private IGame Game;
+        private List<TcpClient> clients = new List<TcpClient>();
+        private List<TcpClient> lobby = new List<TcpClient>();
+        private Dictionary<TcpClient, IGame> ClientGame = new Dictionary<TcpClient, IGame>();
+        List<Thread> Games = new List<Thread>();
         private int Port;
         private string Name;
         public Random rng = new Random();
@@ -33,8 +38,8 @@ namespace GameServer.src
 
         public Server(string name, int port)
         {
-            nextGame = new RPS();
-
+            Game = new RPS(this);
+            instance = this;
             this.Name = name;
             this.Port = port;
             ServerStatus = Status.BOOTING;
@@ -42,24 +47,115 @@ namespace GameServer.src
             listener = new TcpListener(IPAddress.Any, port);
         }
 
+        public void UpdateTitleStatus()
+        {
+            string TitleStatus = $"GameServer {Name} {ServerStatus} on {Port} with {clients.Count} and {lobby.Count} in Lobby with {Games.Count} games running.";
+            Console.Title = TitleStatus;
+        }
 
         public void Boot()
         {
             Console.WriteLine($"Game Server started on port {Port}");
-            //Starts
+            //Starts listener on specified port 
             listener.Start();
             ServerStatus = Status.RUNNING;
+
+            //Instantiates new list of Tasks to be run on the server
+            List<Task> ConnectionTasks = new List<Task>();
+
             while (ServerStatus == Status.RUNNING)
             {
+                UpdateTitleStatus();
                 //Checks if there are any join requests on the listener
                 if (listener.Pending())
                 {
-                    OnNewConnection();
+                    ConnectionTasks.Add(OnNewConnection());
+                }
+                if(lobby.Count >= Game.RequiredPlayers)
+                {
+                    if(lobby.Count <= Game.MaxPlayers)
+                    {
+                        foreach(TcpClient c in lobby.ToArray())
+                        {
+                            Game.AddPlayer(c);
+                            lobby.Remove(c);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Game.MaxPlayers; i++)
+                        {
+                            Game.AddPlayer(lobby[i]);
+                        }
+                    }
+                    Thread gameThread = new Thread(new ThreadStart(Game.Start));
+                    gameThread.Start();
+                    Games.Add(gameThread);
+                    UpdateTitleStatus();
+                }
+                for (int i = 0; i < lobby.Count; i++)
+                {
+                    bool disconnected = false;
+                    TcpClient client = lobby[i];
+                    disconnected = isDisconnected(client);
+                    if (disconnected)
+                    {
+                        removeClient(client);
+                    }
+                    Thread.Sleep(10);
                 }
             }
+            Task.WaitAll(ConnectionTasks.ToArray(), 1000);
+            listener.Stop();
+            UpdateTitleStatus();
+
         }
 
-        public async void OnNewConnection()
+        public bool isDisconnected(TcpClient client)
+        {
+            //Checks if the TcpClient has been disconnected
+            //https://stackoverflow.com/questions/722240/instantly-detect-client-disconnection-from-server-socket
+            try
+            {
+                Socket clientSocket = client.Client;
+                return clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0;
+            }
+            catch (SocketException) { return true; }
+        }
+
+        public void removeClient(TcpClient client)
+        {
+            Console.WriteLine($"{client.Client.RemoteEndPoint} has disconnected from us.");
+            //Creates and sends a Disconnect Packet 
+            Packet DisconnectPacket = new Packet("disconnect", "You have been disconnected from the server.");
+            Task Disconnect = SendPacket(client, DisconnectPacket);
+            //Removes client from the list of clients storing players
+            clients.Remove(client);
+            lobby.Remove(client);
+            //Removes client from current game they may be in
+            try
+            {
+                ClientGame[client].DisconnectClient(client);
+            }
+            catch (Exception) { }
+            Thread.Sleep(100);
+
+            Disconnect.GetAwaiter().GetResult();
+            DestroyClient(client);
+            //Closes client's network stream and client object.
+        }
+
+        public void DestroyClient(TcpClient client)
+        {
+            try
+            {
+                client.GetStream().Close();
+            }
+            catch(Exception) { }
+            client.Close();
+        }
+
+        public async Task OnNewConnection()
         {
             //Accepts any pending connections 
             TcpClient newClient = await listener.AcceptTcpClientAsync();
@@ -71,7 +167,8 @@ namespace GameServer.src
             SendPacket(newClient, t);
 
             //Adds client to the list of clients
-            players.Add(newClient);
+            clients.Add(newClient);
+            lobby.Add(newClient);
         }
 
         public async Task SendPacket(TcpClient client, Packet packet)
@@ -79,18 +176,18 @@ namespace GameServer.src
             try
             {
                 //Stores the json packet in a byte array buffer 
-                byte[] jsonBuffer = Encoding.UTF8.GetBytes(packet.Serialize());
+                byte[] packetBuffer = Encoding.UTF8.GetBytes(packet.Serialize());
                 //Stores the length of the jsonBuffer
-                byte[] lengthBuffer = BitConverter.GetBytes(Convert.ToUInt16(jsonBuffer.Length));
-                
+                byte[] bufferLength = BitConverter.GetBytes(Convert.ToUInt16(packetBuffer.Length));
+
                 //Creates a new byte array with the size of the length and the data
-                byte[] msgBuffer = new byte[lengthBuffer.Length + jsonBuffer.Length];
+                byte[] Data = new byte[bufferLength.Length + packetBuffer.Length];
                 //Copies the two arrays into the new array | {DataLength}{Data} 
-                Array.Copy(lengthBuffer, msgBuffer, lengthBuffer.Length);
-                Array.Copy(jsonBuffer,0, msgBuffer, lengthBuffer.Length, jsonBuffer.Length);
+                Array.Copy(bufferLength, Data, bufferLength.Length);
+                Array.Copy(packetBuffer, 0, Data, bufferLength.Length, packetBuffer.Length);
 
                 //Writes data to the Network Stream
-                await client.GetStream().WriteAsync(msgBuffer, 0, msgBuffer.Length);
+                await client.GetStream().WriteAsync(Data, 0, Data.Length);
             }
             catch (Exception e)
             {
@@ -131,5 +228,23 @@ namespace GameServer.src
             return null;
         }
 
+        public static void SendMessageAll(List<TcpClient> clients, string msg)
+        {
+            for(int i = 0; i < clients.Count; i++)
+            {
+                instance.SendPacket(clients[i], new Packet("msg", msg));
+            }
+        }
+
+        public static void SendMessage(TcpClient client, string msg)
+        {
+            instance.SendPacket(client,new Packet("msg", msg));
+        }
+
+        public static void RequestInput(TcpClient client, string msg)
+        {
+            instance.SendPacket(client, new Packet("input", msg));
+        }
     }
+
 }

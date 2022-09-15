@@ -10,7 +10,7 @@ namespace GameServer.src.game
     public interface IGame
     {
         #region Properties
-        string Name { get; }
+        string GameName { get; }
 
         int RequiredPlayers { get; }
 

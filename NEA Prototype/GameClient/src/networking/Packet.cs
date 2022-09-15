@@ -3,19 +3,13 @@ using System;
 
 namespace GameClient.src
 {
-    public enum PacketType
-    {
-        auth,
-        cmd,
-        msg
-    }
     [Serializable]
     public class Packet
     {
         public string Content;
-        public PacketType Type;
+        public string Type;
 
-        public Packet(PacketType type, string content)
+        public Packet(string type, string content)
         {
             Content = content;
             Type = type;

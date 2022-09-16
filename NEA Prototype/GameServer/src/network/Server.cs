@@ -269,28 +269,29 @@ namespace GameServer.src
         public static async Task<string> RequestInput(TcpClient client, string msg)
         {
             string response = "";
-            instance.SendPacket(client, new Packet("input", msg));
             Packet RequestPacket = new Packet("input", msg);
-            Task Request = instance.SendPacket(client, RequestPacket);
-            Request.GetAwaiter().GetResult();
+            instance.SendPacket(client, RequestPacket);
+            await Task.Delay(500);
             Packet Answer = instance.ReceivePacket(client).GetAwaiter().GetResult();
-            Thread.Sleep(10);
             response += Answer.Content;
             return response;
         }
 
-        public static Dictionary<TcpClient, string> RequestInputAll(List<TcpClient> clients, string msg)
+        public static async Task<Dictionary<TcpClient, string>> RequestInputAll(List<TcpClient> clients, string msg)
         {
             Dictionary<TcpClient, string> result = new Dictionary<TcpClient, string>();
             List<Task> InputTasks = new List<Task>();
             for (int i = 0; i < clients.Count; i++)
             {
-                //Packet RequestPacket = new Packet("input", msg);
-                //Task Request = instance.RequestInput(clients[i], msg);
-                //Request.GetAwaiter().GetResult();
-                //Task t = RequestInput(clients[i], msg);
-                string ans = Server.RequestInput(clients[i],msg).GetAwaiter().GetResult();
-                result.Add(clients[i], ans);
+                Console.WriteLine(i);
+                InputTasks.Add(Server.RequestInput(clients[i], "t"));
+            }
+            await Task.WhenAll(InputTasks);
+            for (int i = 0; i < clients.Count; i++)
+            {
+                //https://briancaos.wordpress.com/2021/02/15/c-get-results-from-task-whenall/
+                var fetchString = ((Task<string>)InputTasks[i]).Result;
+                result.Add(clients[i], fetchString);
             }
             return result;
         }

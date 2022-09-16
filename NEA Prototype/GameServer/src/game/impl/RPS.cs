@@ -58,7 +58,8 @@ namespace GameServer.src.game.impl
             Server.SendMessageAll(Players, "WELCOME TO RPS");
             Dictionary<TcpClient, string> Responses = new Dictionary<TcpClient, string>();
             GameStatus = Status.RUNNING;
-            Responses = Server.RequestInputAll(Players, "Please pick either R/P/S");
+            Responses = Server.RequestInputAll(Players, "Please pick either R/P/S").GetAwaiter().GetResult();
+            //Console.WriteLine(Server.RequestInput(Players[1], "Please pick r/p/s"));
             //for(int i = 0; i < Players.Count; i++)
             //{
             //    Responses[Players[i]] = Server.RequestInput(Players[i], "enter rps").GetAwaiter().GetResult();

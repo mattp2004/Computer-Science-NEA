@@ -284,7 +284,7 @@ namespace GameServer.src
             for (int i = 0; i < clients.Count; i++)
             {
                 Console.WriteLine(i);
-                InputTasks.Add(Server.RequestInput(clients[i], "t"));
+                InputTasks.Add(Server.RequestInput(clients[i], msg));
             }
             await Task.WhenAll(InputTasks);
             for (int i = 0; i < clients.Count; i++)

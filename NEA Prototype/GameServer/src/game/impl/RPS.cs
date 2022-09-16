@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameServer.src.game.impl
@@ -55,17 +56,83 @@ namespace GameServer.src.game.impl
 
         public void Start()
         {
-            Server.SendMessageAll(Players, "WELCOME TO RPS");
+            Server.SendMessageAll(Players, "Welcome to RPS");
+            Thread.Sleep(15);
+            for (int i = 0; i < Players.Count; i++)
+            {
+                Server.SendMessage(Players[i], $"You are player {i+1}");
+            }
+
+            //Dictionary to store the responses of the players in the game
             Dictionary<TcpClient, string> Responses = new Dictionary<TcpClient, string>();
             GameStatus = Status.RUNNING;
+
+            //Gets player inputs
+            Thread.Sleep(15);
             Responses = Server.RequestInputAll(Players, "Please pick either R/P/S").GetAwaiter().GetResult();
             //Console.WriteLine(Server.RequestInput(Players[1], "Please pick r/p/s"));
             //for(int i = 0; i < Players.Count; i++)
             //{
             //    Responses[Players[i]] = Server.RequestInput(Players[i], "enter rps").GetAwaiter().GetResult();
             //}
-            Server.SendMessageAll(Players, $"PLAYER 1 CHOSE: ${Responses[Players[0]]}");
-            Server.SendMessageAll(Players, $"PLAYER 2 CHOSE: ${Responses[Players[1]]}");
+            Server.SendMessageAll(Players, $"PLAYER 1 CHOSE: {Responses[Players[0]]}");
+            Server.SendMessageAll(Players, $"PLAYER 2 CHOSE: {Responses[Players[1]]}");
+            if (Responses[Players[0]].ToLower() == "r")
+            {
+                if (Responses[Players[1]].ToLower() == "s")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                }
+                else if (Responses[Players[1]].ToLower() == "p")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                }
+                else
+                {
+                    Server.SendMessageAll(Players, $"IT'S A DRAW");
+                }
+            }
+            else if (Responses[Players[0]].ToLower() == "s")
+            {
+                if (Responses[Players[1]].ToLower() == "p")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                }
+                else if (Responses[Players[1]].ToLower() == "r")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                }
+                else
+                {
+                    Server.SendMessageAll(Players, $"IT'S A DRAW");
+                }
+            }
+            else if (Responses[Players[0]].ToLower() == "p")
+            {
+                if (Responses[Players[1]].ToLower() == "r")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                }
+                else if (Responses[Players[1]].ToLower() == "s")
+                {
+                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                }
+                else
+                {
+                    Server.SendMessageAll(Players, $"IT'S A DRAW");
+                }
+            }
+            Console.WriteLine("Game ending");
+            Thread.Sleep(9500);
+            for (int i = 0; i < Players.Count; i++)
+            {
+                if (!serverInstance.isDisconnected(Players[i]))
+                    serverInstance.removeClient(Players[i]);
+                else
+                {
+                    Console.WriteLine("Client disconnected from game.");
+                }
+            }
         }
     }
 }

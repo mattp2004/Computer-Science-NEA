@@ -1,0 +1,15 @@
+[12:14:13 LOG] Server booting please wait...
+[12:14:14 LOG] Generating log files
+[12:14:14 LOG] Loading properties
+[12:14:14 LOG] Starting GameServer at 23/09/2022 12:14:14
+[12:14:14 LOG] Details:
+[12:14:14 LOG] - IP: localhost
+[12:14:14 LOG] - Port: 5000
+[12:14:14 LOG] - DevServer: True
+[12:14:14 LOG] - DefaultGame: RPS
+[12:14:14 LOG] - Whitelisted: False
+[12:14:14 LOG] - Version: 0.1
+[12:14:15 DEBUG] SERVER STATUS: BOOTING
+[12:14:15 DEBUG] SERVER STATUS: RUNNING
+[12:14:16 DEBUG] Requested input 'auth' from [127.0.0.1:9350]
+[12:14:16 DEBUG] Failed to send packet input auth to client [127.0.0.1:9350]

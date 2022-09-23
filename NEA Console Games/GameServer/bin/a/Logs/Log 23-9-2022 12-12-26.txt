@@ -1,0 +1,13 @@
+[12:12:26 LOG] Server booting please wait...
+[12:12:26 LOG] Generating log files
+[12:12:27 LOG] Loading properties
+[12:12:27 LOG] Starting GameServer at 23/09/2022 12:12:27
+[12:12:27 LOG] Details:
+[12:12:27 LOG] - IP: localhost
+[12:12:27 LOG] - Port: 5000
+[12:12:27 LOG] - DevServer: True
+[12:12:27 LOG] - DefaultGame: RPS
+[12:12:27 LOG] - Whitelisted: False
+[12:12:27 LOG] - Version: 0.1
+[12:12:28 DEBUG] SERVER STATUS: BOOTING
+[12:12:28 DEBUG] SERVER STATUS: RUNNING

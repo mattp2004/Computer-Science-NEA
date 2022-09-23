@@ -1,0 +1,86 @@
+[12:37:6 LOG] Loading properties
+[12:37:6 LOG] Starting GameServer at 23/09/2022 12:37:06
+[12:37:6 LOG] Details:
+[12:37:6 LOG] - IP: localhost
+[12:37:6 LOG] - Port: 6000
+[12:37:6 LOG] - DevServer: False
+[12:37:6 LOG] - DefaultGame: RPS
+[12:37:6 LOG] - Whitelisted: False
+[12:37:6 LOG] - Version: 0.1
+[12:37:13 LOG] Enabled debug mode.
+[12:37:14 DEBUG] Received packet input true from client [127.0.0.1:27218]
+[12:37:14 DEBUG] Recieved input 'true' from [127.0.0.1:27218]
+[12:37:14 DEBUG] New connection from 127.0.0.1:27218
+[12:37:14 DEBUG] Sent message Welcome to the Staging Game Server to all System.Net.Sockets.TcpClient
+[12:37:14 DEBUG] Sent packet msg Welcome to the Staging Game Server to client [127.0.0.1:27218]
+[12:37:18 DEBUG] Sent packet input auth to client [127.0.0.1:27219]
+[12:37:31 DEBUG] Requested input 'auth' from [127.0.0.1:27223]
+[12:37:31 DEBUG] Failed to send packet input auth to client [127.0.0.1:27223]
+[12:37:36 DEBUG] Received packet input true from client [127.0.0.1:27223]
+[12:37:36 DEBUG] Recieved input 'true' from [127.0.0.1:27223]
+[12:37:36 DEBUG] New connection from 127.0.0.1:27223
+[12:37:36 DEBUG] Sent message Welcome to the Staging Game Server to all System.Net.Sockets.TcpClient
+[12:37:36 DEBUG] Sent packet msg Welcome to the Staging Game Server to client [127.0.0.1:27223]
+[12:37:36 DEBUG] New game starting 'Rock, Paper, Scissors' with the following clients: 
+[12:37:36 DEBUG]  - 127.0.0.1:27218
+[12:37:36 DEBUG]  - 127.0.0.1:27223
+[12:37:36 DEBUG] Sent message Welcome to RPS to all clients
+[12:37:36 DEBUG] Sent packet msg Welcome to RPS to client [127.0.0.1:27218]
+[12:37:36 DEBUG] Sent packet msg Welcome to RPS to client [127.0.0.1:27223]
+[12:37:36 DEBUG] Sent message You are player 1 to all System.Net.Sockets.TcpClient
+[12:37:36 DEBUG] Sent message You are player 2 to all System.Net.Sockets.TcpClient
+[12:37:36 DEBUG] Sent packet msg You are player 1 to client [127.0.0.1:27218]
+[12:37:36 DEBUG] Sent packet msg You are player 2 to client [127.0.0.1:27223]
+[12:37:36 DEBUG] Requested input 'Please pick either R/P/S' from all players
+[12:37:36 DEBUG] Requested input 'Please pick either R/P/S' from [127.0.0.1:27218]
+[12:37:36 DEBUG] Sent packet input Please pick either R/P/S to client [127.0.0.1:27218]
+[12:37:36 DEBUG] Requested input 'Please pick either R/P/S' from [127.0.0.1:27223]
+[12:37:36 DEBUG] Sent packet input Please pick either R/P/S to client [127.0.0.1:27223]
+[12:37:37 DEBUG] Received packet input  from client [127.0.0.1:27218]
+[12:37:37 DEBUG] Recieved input '' from [127.0.0.1:27218]
+[12:37:47 DEBUG] Received packet input R from client [127.0.0.1:27223]
+[12:37:47 DEBUG] Recieved input 'R' from [127.0.0.1:27223]
+[12:37:47 DEBUG] Sent message PLAYER 1 CHOSE:  to all clients
+[12:37:47 DEBUG] Sent packet msg PLAYER 1 CHOSE:  to client [127.0.0.1:27218]
+[12:37:47 DEBUG] Sent message PLAYER 2 CHOSE: R to all clients
+[12:37:47 DEBUG] Failed to send packet msg PLAYER 1 CHOSE:  to client [127.0.0.1:27223]
+[12:37:47 DEBUG] Sent packet msg PLAYER 2 CHOSE: R to client [127.0.0.1:27218]
+[12:37:47 DEBUG] Sent packet msg PLAYER 2 CHOSE: R to client [127.0.0.1:27223]
+[12:37:56 DEBUG] Sent packet disconnect You have been disconnected from the server. to client [127.0.0.1:27218]
+[12:37:56 DEBUG] Sent packet disconnect You have been disconnected from the server. to client [127.0.0.1:27223]
+[12:37:58 DEBUG] Sent packet input auth to client [127.0.0.1:1069]
+[12:37:59 DEBUG] Requested input 'auth' from [127.0.0.1:1070]
+[12:37:59 DEBUG] Sent packet input auth to client [127.0.0.1:1070]
+[12:38:5 DEBUG] Received packet input true from client [127.0.0.1:1070]
+[12:38:5 DEBUG] Recieved input 'true' from [127.0.0.1:1070]
+[12:38:5 DEBUG] New connection from 127.0.0.1:1070
+[12:38:5 DEBUG] Sent message Welcome to the Staging Game Server to all System.Net.Sockets.TcpClient
+[12:38:5 DEBUG] Sent packet msg Welcome to the Staging Game Server to client [127.0.0.1:1070]
+[12:38:9 DEBUG] Sent packet input auth to client [127.0.0.1:1071]
+[12:38:9 DEBUG] Requested input 'auth' from [127.0.0.1:1071]
+[12:38:10 DEBUG] Received packet input true from client [127.0.0.1:1071]
+[12:38:10 DEBUG] Recieved input 'true' from [127.0.0.1:1071]
+[12:38:10 DEBUG] New connection from 127.0.0.1:1071
+[12:38:10 DEBUG] Sent message Welcome to the Staging Game Server to all System.Net.Sockets.TcpClient
+[12:38:10 DEBUG] New game starting 'Rock, Paper, Scissors' with the following clients: 
+[12:38:10 DEBUG] Sent packet msg Welcome to the Staging Game Server to client [127.0.0.1:1071]
+[12:38:10 DEBUG]  - 127.0.0.1:1070
+[12:38:10 DEBUG]  - 127.0.0.1:1071
+[12:38:10 DEBUG] Sent message Welcome to RPS to all clients
+[12:38:10 DEBUG] Sent packet msg Welcome to RPS to client [127.0.0.1:1070]
+[12:38:10 DEBUG] Sent packet msg Welcome to RPS to client [127.0.0.1:1071]
+[12:38:10 DEBUG] Sent message You are player 1 to all System.Net.Sockets.TcpClient
+[12:38:10 DEBUG] Sent message You are player 2 to all System.Net.Sockets.TcpClient
+[12:38:10 DEBUG] Sent message You are player 3 to all System.Net.Sockets.TcpClient
+[12:38:10 DEBUG] Sent message You are player 4 to all System.Net.Sockets.TcpClient
+[12:38:10 DEBUG] Failed to send packet msg You are player 3 to client [127.0.0.1:1070]
+[12:38:10 DEBUG] Sent packet msg You are player 4 to client [127.0.0.1:1071]
+[12:38:10 DEBUG] Requested input 'Please pick either R/P/S' from all players
+[12:38:10 DEBUG] Sent packet input Please pick either R/P/S to client [127.0.0.1:1070]
+[12:38:10 DEBUG] Requested input 'Please pick either R/P/S' from [127.0.0.1:1070]
+[12:38:10 DEBUG] Requested input 'Please pick either R/P/S' from [127.0.0.1:1071]
+[12:38:10 DEBUG] Sent packet input Please pick either R/P/S to client [127.0.0.1:1071]
+[12:38:15 DEBUG] Received packet input R from client [127.0.0.1:1070]
+[12:38:15 DEBUG] Recieved input 'R' from [127.0.0.1:1070]
+[12:38:16 DEBUG] Received packet input P from client [127.0.0.1:1071]
+[12:38:16 DEBUG] Recieved input 'P' from [127.0.0.1:1071]

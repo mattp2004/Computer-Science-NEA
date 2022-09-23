@@ -27,19 +27,16 @@ namespace GameServer
         public static void BootUp()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Util.Write("Server booting please wait...");
+            Console.WriteLine("Server booting please wait...");
             Thread.Sleep(350);
             if (!File.Exists("config.json"))
             {
-                Util.Write("Generating properties file");
                 Config.GenerateConfig();
             }
             if (!File.Exists(Config.logsName))
             {
-                Util.Write("Generating log files");
                 Util.GenerateLogFolder();
             }
-
             Config.UpdateConfig();
             Thread.Sleep(250);
             Util.Write("Loading properties");
@@ -53,8 +50,7 @@ namespace GameServer
             Util.Write($"- DefaultGame: {Config.DefaultGame}");
             Util.Write($"- Whitelisted: {Config.Whitelisted}");
             Util.Write($"- Version: {Config.version}");
-            Thread.Sleep(800
-                );
+            Thread.Sleep(800);
 
             Console.Title = Config.serverName;
         }

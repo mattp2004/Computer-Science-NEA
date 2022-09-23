@@ -155,12 +155,10 @@ namespace GameServer.src.network
             try
             {
                 Socket clientSocket = client.Client;
-                Util.Debug($"Running disconnected check on {client.Client.RemoteEndPoint}: {false}");
                 return clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0;
             }
             catch (SocketException)
             {
-                Util.Debug($"Running disconnected check on {client.Client.RemoteEndPoint}: {false}");
                 return true;
             }
         }
@@ -253,6 +251,33 @@ namespace GameServer.src.network
                 Console.WriteLine($"ERROR: {e.Message} | {e.TargetSite}");
                 Util.Debug($"Failed to send packet {packet.Type} {packet.Content} to client [{client.Client.RemoteEndPoint}]");
             }
+        }
+
+        public Packet ReceiveNonAsyncPacket(TcpClient client)
+        {
+            Packet packet = null;
+            try
+            {
+                //Creates empty packet type and gets the Network Data Stream from the client
+                NetworkStream stream = client.GetStream();
+
+                //Gets the length of the data buffer by taking the first 2 bytes (16 bits)
+                byte[] bufferLength = new byte[2];
+                stream.ReadAsync(bufferLength, 0, 2);
+                //Converts bytes into an integer 
+                int datalength = BitConverter.ToUInt16(bufferLength, 0);
+
+                //Creates a new Byte array with the size of the data
+                byte[] Data = new byte[datalength];
+                stream.ReadAsync(Data, 0, Data.Length);
+
+                //https://stackoverflow.com/questions/16072709/converting-string-to-byte-array-in-c-sharp
+                //Converts the bytes into a string then deserializes it into a Packet object.
+                string JsonString = Encoding.UTF8.GetString(Data);
+                packet = Packet.Deserialize(JsonString);
+            }
+            catch(Exception e) { }
+            return packet;
         }
 
         public async Task<Packet> ReceivePacket(TcpClient client)

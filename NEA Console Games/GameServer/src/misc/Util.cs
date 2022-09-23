@@ -27,9 +27,20 @@ namespace GameServer.src.misc
             {
                 GenerateLog();
             }
-            using (StreamWriter sw = new StreamWriter(CurrentLogName, true))
+            if (!File.Exists(Config.logsName))
             {
-                sw.WriteLine(message);
+                Util.GenerateLogFolder();
+            }
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(CurrentLogName, true))
+                {
+                    sw.WriteLine(message);
+                }
+            }
+            catch(Exception e)
+            {
+                Error(e);
             }
         }
 

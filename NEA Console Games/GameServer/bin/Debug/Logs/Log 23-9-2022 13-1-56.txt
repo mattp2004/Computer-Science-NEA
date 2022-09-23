@@ -1,0 +1,9 @@
+[13:1:56 LOG] Loading properties
+[13:1:56 LOG] Starting GameServer at 23/09/2022 13:01:56
+[13:1:56 LOG] Details:
+[13:1:56 LOG] - IP: localhost
+[13:1:56 LOG] - Port: 6000
+[13:1:56 LOG] - DevServer: False
+[13:1:56 LOG] - DefaultGame: RPS
+[13:1:56 LOG] - Whitelisted: False
+[13:1:56 LOG] - Version: 0.1

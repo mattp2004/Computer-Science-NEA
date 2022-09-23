@@ -1,4 +1,5 @@
 ﻿using GameClient.src.menus;
+using GameClient.src.networking;
 using GameClient.src.Util;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace GameClient
         //Entry point
         static void Main()
         {
-            Client.SetTitle($"Console Games [v{Client.Version}]");
-            MenuManager.Init();
+            NetworkClient test = new NetworkClient("38.242.132.154", 5000);
+            test.Connect();
+            //Client.SetTitle($"Console Games [v{Client.Version}]");
+            //MenuManager.Init();
             Console.ReadKey();
         }
     }

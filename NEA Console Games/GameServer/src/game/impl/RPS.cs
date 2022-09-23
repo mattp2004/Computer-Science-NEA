@@ -60,7 +60,7 @@ namespace GameServer.src.game.impl
             Thread.Sleep(15);
             for (int i = 0; i < Players.Count; i++)
             {
-                Server.SendMessage(Players[i], $"You are player {i+1}");
+                Server.SendMessage(Players[i], $"You are player {i + 1}");
             }
 
             Dictionary<TcpClient, string> Responses = new Dictionary<TcpClient, string>();

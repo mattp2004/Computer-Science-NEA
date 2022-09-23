@@ -13,9 +13,12 @@ namespace GameServer.src.misc
         public static string CurrentLogName = "null";
         public static void Error(Exception e)
         {
+            ConsoleColor temp = Console.ForegroundColor;
+            string msg = $"[{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} ERROR]: {e.Message} {e.TargetSite}";
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"ERROR OCCURED: {e.Message} {e.TargetSite}");
-            Log(e.Message);
+            Console.WriteLine(msg);
+            Log(msg);
+            Console.ForegroundColor = temp;
         }
 
         public static void Log(string message)
@@ -28,6 +31,26 @@ namespace GameServer.src.misc
             {
                 sw.WriteLine(message);
             }
+        }
+
+        public static void Debug(string message)
+        {
+            if (Config.Debug)
+            {
+                ConsoleColor temp = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Green;
+                message = $"[{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} DEBUG] {message}";
+                Console.WriteLine(message);
+                Console.ForegroundColor = temp;
+                Log(message);
+            }
+        }
+
+        public static void Write(string message)
+        {
+            message = $"[{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second} LOG] {message}";
+            Console.WriteLine(message);
+            Log(message);
         }
 
         public static void GenerateLog()

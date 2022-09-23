@@ -7,38 +7,27 @@ using System.Threading.Tasks;
 
 namespace GameServer.src.network
 {
-    class Packet
+
+    [Serializable]
+    public class Packet
     {
+        public string Content;
+        public string Type;
 
-        public Packet(string _cmd, string _msg)
+        public Packet(string type, string content)
         {
-            Message = _msg;
-            Command = _cmd;
+            Content = content;
+            Type = type;
         }
 
-        [JsonProperty("message")]
-        public string Message { get; set; }
-
-        [JsonProperty("command")]
-        public string Command { get; set; }
-
-        public override string ToString()
+        public static Packet Deserialize(string jsonString)
         {
-            return string.Format(
-                "[Packet:\n" +
-                $"  Command=`{Command}`\n" +
-                $"  Message=`{Message}`]");
+            return JsonConvert.DeserializeObject<Packet>(jsonString);
         }
 
-        public string ConvertToJson()
+        public string Serialize()
         {
             return JsonConvert.SerializeObject(this);
         }
-
-        public static Packet ConvertFromJson(string json)
-        {
-            return JsonConvert.DeserializeObject<Packet>(json);
-        }
-
     }
 }

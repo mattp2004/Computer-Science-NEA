@@ -39,6 +39,8 @@ namespace GameServer.src.config
         public static string DefaultGame = "null";
         public static bool Whitelisted = false;
         public static WhitelistConfig Whitelist = new WhitelistConfig();
+        public static bool Debug;
+
         public static void UpdateConfig()
         {
             try
@@ -46,7 +48,8 @@ namespace GameServer.src.config
                 string configRaw = System.IO.File.ReadAllText(configName);
                 configs = JsonConvert.DeserializeObject<customConfig>(configRaw);
                 SetJsonConfig();
-            }
+                Debug = configs.DevServer;
+    }
             catch(Exception e)
             {
                 Util.Error(e);

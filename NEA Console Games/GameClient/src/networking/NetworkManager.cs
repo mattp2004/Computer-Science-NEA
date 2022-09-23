@@ -10,7 +10,7 @@ namespace GameClient.src.networking
     {
         public static void QuickPlay()
         {
-            NetworkClient test = new NetworkClient("localhost", 6000);
+            NetworkClient test = new NetworkClient("38.242.132.154", 6000);
             test.Connect();
         }
     }

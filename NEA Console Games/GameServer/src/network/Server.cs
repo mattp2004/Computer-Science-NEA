@@ -30,10 +30,10 @@ namespace GameServer.src.network
         private List<TcpClient> clients = new List<TcpClient>();
         private List<TcpClient> lobby = new List<TcpClient>();
         private Dictionary<TcpClient, IGame> ClientGame = new Dictionary<TcpClient, IGame>();
-        List<Thread> Games = new List<Thread>();
+        private List<Thread> Games = new List<Thread>();
         private int Port;
         private string Name;
-        public Random rng = new Random();
+        public Random rng;
         private static bool inputting;
 
         public Status ServerStatus { get; private set; }
@@ -45,6 +45,7 @@ namespace GameServer.src.network
             instance = this;
             this.Name = name;
             this.Port = port;
+            rng = new Random();
             ServerStatus = Status.BOOTING;
             Util.Debug($"SERVER STATUS: {ServerStatus}");
 

@@ -9,3 +9,6 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.CopyComplete
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.AssemblyReference.cache
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.SuggestedBindingRedirects.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.exe
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.pdb
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.exe.config

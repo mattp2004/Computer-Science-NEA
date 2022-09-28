@@ -4,8 +4,11 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.CoreCompileInputs.cache
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.exe
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.pdb
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.CopyComplete
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.AssemblyReference.cache
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.SuggestedBindingRedirects.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.Fody.CopyLocal.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\obj\Debug\GameServer.csproj.Fody.RuntimeCopyLocal.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameServer\bin\Debug\ServerData.exe.config

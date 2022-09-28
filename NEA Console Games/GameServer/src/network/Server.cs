@@ -12,6 +12,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ServerData;
+using ServerData.src.redis;
+using ServerData.src.redis.auth;
 
 namespace GameServer.src.network
 {
@@ -65,7 +68,14 @@ namespace GameServer.src.network
             listener.Start();
             ServerStatus = Status.RUNNING;
             Util.Debug($"SERVER STATUS: {ServerStatus}");
-
+            RedisController t = new RedisController();
+            AuthRepository authRepo = new AuthRepository(t);
+            try
+            {
+                string uuid = authRepo.GetUUID("sfasfsa");
+                Util.Debug($"Validated client {uuid}");
+            }
+            catch(Exception e) { }
             //Instantiates new list of Tasks to be run on the server
             List<Task> ConnectionTasks = new List<Task>();
 
@@ -178,9 +188,7 @@ namespace GameServer.src.network
             {
                 ClientGame[client].DisconnectClient(client);
             }
-            catch (Exception) { }
-            Thread.Sleep(100);
-
+            catch (Exception e) { Util.Error(e); }
             Disconnect.GetAwaiter().GetResult();
             DestroyClient(client);
             //Closes client's network stream and client object.
@@ -193,7 +201,7 @@ namespace GameServer.src.network
                 client.GetStream().Close();
                 Util.Debug($"Destroyed client [{client.Client.RemoteEndPoint}]");
             }
-            catch (Exception) { }
+            catch (Exception e) { Util.Error(e); }
             client.Close();
         }
 
@@ -219,13 +227,20 @@ namespace GameServer.src.network
         {
             //Validates that the TCP Connection has been sent from the Client program
             string test = RequestInput(newClient, "auth").GetAwaiter().GetResult();
-            if(test == "true")
+            RedisController t = new RedisController();
+            AuthRepository authRepo = new AuthRepository(t);
+            try
             {
-                return true;
+                string uuid = authRepo.GetUUID("sfasfsa");
                 Util.Debug($"Validated client {newClient.Client.RemoteEndPoint}");
+                Console.WriteLine($"New client with uuid {uuid} connected from {newClient.Client.RemoteEndPoint}");
+                return true;
             }
-            Util.Debug($"Failed to validate client {newClient.Client.RemoteEndPoint}");
-            return false;
+            catch(Exception e)
+            {
+                Util.Debug($"Failed to validate client {newClient.Client.RemoteEndPoint} | {e.Message}");
+                return false; 
+            }
         }
 
         public async Task SendPacket(TcpClient client, Packet packet)

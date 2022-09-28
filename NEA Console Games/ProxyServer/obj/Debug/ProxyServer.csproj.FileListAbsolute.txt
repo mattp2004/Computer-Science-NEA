@@ -1,6 +1,0 @@
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\bin\Debug\ProxyServer.exe.config
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\bin\Debug\ProxyServer.exe
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\bin\Debug\ProxyServer.pdb
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\obj\Debug\ProxyServer.csproj.CoreCompileInputs.cache
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\obj\Debug\ProxyServer.exe
-C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ProxyServer\obj\Debug\ProxyServer.pdb

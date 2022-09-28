@@ -14,6 +14,7 @@ namespace GameClient
         //Entry point
         static void Main()
         {
+            Console.ReadKey();
             Client.SetTitle($"Console Games [v{Client.Version}]");
             MenuManager.Init();
             Console.ReadKey();

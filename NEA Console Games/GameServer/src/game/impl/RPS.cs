@@ -1,4 +1,5 @@
-﻿using GameServer.src.network;
+﻿using GameServer.src.misc;
+using GameServer.src.network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,9 +121,15 @@ namespace GameServer.src.game.impl
             Thread.Sleep(9500);
             for (int i = 0; i < Players.Count; i++)
             {
-                if (!serverInstance.isDisconnected(Players[i]))
+                try
+                {
                     serverInstance.removeClient(Players[i]);
-                else
+                }
+                catch (Exception e)
+                {
+                    Util.Error(e);
+                }
+                if (serverInstance.isDisconnected(Players[i]))
                 {
                     Console.WriteLine("Client disconnected from game.");
                 }

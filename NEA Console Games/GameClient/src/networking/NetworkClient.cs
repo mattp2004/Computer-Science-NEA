@@ -1,4 +1,6 @@
 ﻿using GameClient.src.Util;
+using ServerData.src.redis;
+using ServerData.src.redis.auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,8 @@ namespace GameClient.src.networking
         public NetworkStream stream;
         public Status ClientStatus;
         public List<Task> TaskList;
+        public string Token;
+        public string Uuid;
 
         public enum Status
         {
@@ -31,6 +35,8 @@ namespace GameClient.src.networking
             ClientStatus = Status.DISCONNECTED;
             ServerIP = ip;
             Port = port;
+            Uuid = ServerData.src.data.DataUtil.GenerateUUID();
+            Token = ServerData.src.data.DataUtil.GenerateToken();
         }
 
         public void Connect()
@@ -66,6 +72,10 @@ namespace GameClient.src.networking
         public void Run()
         {
             TaskList = new List<Task>();
+            RedisController redisController = new RedisController();
+            Auth auth = new Auth("c1a0e30d-9b68tetst4e97-825f-sa", "sfasfsa");
+            AuthRepository authRepo = new AuthRepository(redisController);
+            authRepo.PostAuth(auth);
             while (ClientStatus == Status.CONNECTED)
             {
                 //Checking for new packets being sent from the server every 10ms
@@ -144,7 +154,7 @@ namespace GameClient.src.networking
                     {
                         //Disconnects the Client after having recieved a disconnect packet.
                         Console.WriteLine(packet.Content);
-                        Disconnect();
+                        ClientStatus = Status.DISCONNECTED;
                     }
                 }
 
@@ -174,7 +184,7 @@ namespace GameClient.src.networking
 
         public async Task PacketAuth(Packet packet)
         {
-            Packet resp = new Packet("auth", "true");
+            Packet resp = new Packet("auth", Token);
             await SendPacket(resp);
         }
 

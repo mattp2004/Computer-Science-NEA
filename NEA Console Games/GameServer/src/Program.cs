@@ -2,6 +2,9 @@
 using GameServer.src.config;
 using GameServer.src.misc;
 using GameServer.src.network;
+using ServerData.src.data;
+using ServerData.src.redis;
+using ServerData.src;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -11,6 +14,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ServerData.src.redis.auth;
+using GameServer.src.update;
 
 namespace GameServer
 {
@@ -18,6 +23,11 @@ namespace GameServer
     {
         static void Main()
         {
+            RedisController t = new RedisController();
+            AuthRepository authRepo = new AuthRepository(t);
+            Auth b = new Auth(DataUtil.GenerateUUID(), DataUtil.GenerateToken());
+            authRepo.PostAuth(b);
+            Console.ReadKey();
             BootUp();
             Server _server = new Server("Staging",6000);
             _server.Boot();
@@ -37,6 +47,7 @@ namespace GameServer
             {
                 Util.GenerateLogFolder();
             }
+            UpdateManager.UpdateHash();
             Config.UpdateConfig();
             Thread.Sleep(250);
             Util.Write("Loading properties");

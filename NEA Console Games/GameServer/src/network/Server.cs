@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using ServerData;
 using ServerData.src.redis;
 using ServerData.src.redis.auth;
+using GameServer.src.update;
+using ServerData.src.data;
+using ServerData.src.redis.server;
 
 namespace GameServer.src.network
 {
@@ -29,13 +32,21 @@ namespace GameServer.src.network
     {
         private static Server instance;
         private TcpListener listener;
+
         private IGame Game;
         private List<TcpClient> clients = new List<TcpClient>();
         private List<TcpClient> lobby = new List<TcpClient>();
         private Dictionary<TcpClient, IGame> ClientGame = new Dictionary<TcpClient, IGame>();
         private List<Thread> Games = new List<Thread>();
+
         private int Port;
         private string Name;
+
+        private GServer RedisGServer;
+        private RedisController redisController;
+        private AuthRepository authRepo;
+        private ServerRepository serverRepo;
+
         public Random rng;
         private static bool inputting;
 
@@ -68,19 +79,19 @@ namespace GameServer.src.network
             listener.Start();
             ServerStatus = Status.RUNNING;
             Util.Debug($"SERVER STATUS: {ServerStatus}");
-            RedisController t = new RedisController();
-            AuthRepository authRepo = new AuthRepository(t);
-            try
-            {
-                string uuid = authRepo.GetUUID("sfasfsa");
-                Util.Debug($"Validated client {uuid}");
-            }
-            catch(Exception e) { }
             //Instantiates new list of Tasks to be run on the server
             List<Task> ConnectionTasks = new List<Task>();
+            redisController = new RedisController();
+            authRepo = new AuthRepository(redisController);
+            RedisGServer = new GServer(0,"GameServer",Port,"default",clients.Count,50,DateTime.Now, DateTime.Now);
+            serverRepo = new ServerRepository(redisController);
+
+            serverRepo.PostServer(RedisGServer);
 
             while (ServerStatus == Status.RUNNING)
             {
+                RedisGServer.players = clients.Count;
+                RedisGServer.lastPing = DateTime.Now;
                 if (!inputting) { ConsoleInput(); }
                 UpdateTitleStatus();
                 //Checks if there are any join requests on the listener
@@ -151,6 +162,24 @@ namespace GameServer.src.network
             else if (command == "games")
             {
                 Console.WriteLine($"{Games[0].Name}");
+            }
+            else if (command == "updates" || command == "update")
+            {
+                Util.Write("Checking for updates..");
+                if (UpdateManager.CheckUpdated())
+                {
+                    UpdateManager.RestartInstance();
+                }
+                else
+                {
+                    Util.Write("[UPDATE CHECK] No updates found.");
+                }
+            }
+            else if(command == "redis")
+            {
+                Util.Write("[DEV MODE] Force updating redis.");
+                serverRepo.PostServer(RedisGServer);
+                authRepo.UpdateKeys();
             }
             else if(command == "debug")
             {
@@ -227,11 +256,10 @@ namespace GameServer.src.network
         {
             //Validates that the TCP Connection has been sent from the Client program
             string test = RequestInput(newClient, "auth").GetAwaiter().GetResult();
-            RedisController t = new RedisController();
-            AuthRepository authRepo = new AuthRepository(t);
             try
             {
-                string uuid = authRepo.GetUUID("sfasfsa");
+                string uuid = authRepo.GetUUID(test);
+                Console.WriteLine(uuid);
                 Util.Debug($"Validated client {newClient.Client.RemoteEndPoint}");
                 Console.WriteLine($"New client with uuid {uuid} connected from {newClient.Client.RemoteEndPoint}");
                 return true;

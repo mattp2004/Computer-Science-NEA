@@ -11,15 +11,15 @@ namespace ServerData.src.redis.server
     public class ServerRepository
     {
         private RedisController redisController { get; }
-        private List<GameServer> servers;
+        private List<GServer> servers;
 
         public ServerRepository(RedisController redisController)
         {
             this.redisController = redisController;
-            servers = new List<GameServer>();
+            servers = new List<GServer>();
         }
 
-        public void PostServer(GameServer server)
+        public void PostServer(GServer server)
         {
             string name = server.name + "-" + server.id;
             HashEntry[] Hashes = new HashEntry[7];

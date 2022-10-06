@@ -11,7 +11,7 @@ namespace ServerData.src.data
         public static string Characters = "abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         public static Random rnd = new Random();
 
-        public static int TokenLength = 8;
+        public static int TokenLength = 12;
 
         public static string GenerateUUID()
         {

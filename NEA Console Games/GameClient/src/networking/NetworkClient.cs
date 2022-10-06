@@ -72,10 +72,6 @@ namespace GameClient.src.networking
         public void Run()
         {
             TaskList = new List<Task>();
-            RedisController redisController = new RedisController();
-            Auth auth = new Auth("c1a0e30d-9b68tetst4e97-825f-sa", "sfasfsa");
-            AuthRepository authRepo = new AuthRepository(redisController);
-            authRepo.PostAuth(auth);
             while (ClientStatus == Status.CONNECTED)
             {
                 //Checking for new packets being sent from the server every 10ms

@@ -22,7 +22,7 @@ namespace GameServer.src.update
             return (fileInfo.GetHashCode() != Hash);
         }
 
-        public static void UpdateHas()
+        public static void UpdateHash()
         {
             FileInfo fi = new FileInfo(config.Config.fileName);
         }

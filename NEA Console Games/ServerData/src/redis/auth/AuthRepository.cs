@@ -13,7 +13,7 @@ namespace ServerData.src.redis.auth
         public RedisController redisController;
         private static Dictionary<string, long> hashExpire = new Dictionary<string, long>();
         private string KeyName = "Auth";
-        private long AuthExpiry = 15000; //miliseconds
+        private long AuthExpiry = 900000; //miliseconds
         public AuthRepository(RedisController redisController)
         {
             this.redisController = redisController;

@@ -29,7 +29,7 @@ namespace GameServer
             authRepo.PostAuth(b);
             Console.ReadKey();
             BootUp();
-            Server _server = new Server("Staging",6000);
+            Server _server = new Server();
             _server.Boot();
             Console.ReadKey();
         }

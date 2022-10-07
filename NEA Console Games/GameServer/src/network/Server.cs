@@ -52,18 +52,18 @@ namespace GameServer.src.network
 
         public Status ServerStatus { get; private set; }
 
-        public Server(string name, int port)
+        public Server()
         {
             inputting = false;
             Game = new RPS(this);
             instance = this;
-            this.Name = name;
-            this.Port = port;
+            this.Name = Config.serverName;
+            this.Port = Config.serverPort;
             rng = new Random();
             ServerStatus = Status.BOOTING;
             Util.Debug($"SERVER STATUS: {ServerStatus}");
 
-            listener = new TcpListener(IPAddress.Any, port);
+            listener = new TcpListener(IPAddress.Any, Port);
         }
 
         public void UpdateTitleStatus()
@@ -83,7 +83,7 @@ namespace GameServer.src.network
             List<Task> ConnectionTasks = new List<Task>();
             redisController = new RedisController();
             authRepo = new AuthRepository(redisController);
-            RedisGServer = new GServer(0,"GameServer",Port,"default",clients.Count,50,DateTime.Now, DateTime.Now);
+            RedisGServer = new GServer(0,Name,Port,"default",clients.Count,50,DateTime.Now, DateTime.Now);
             serverRepo = new ServerRepository(redisController);
 
             serverRepo.PostServer(RedisGServer);
@@ -92,6 +92,7 @@ namespace GameServer.src.network
             {
                 RedisGServer.players = clients.Count;
                 RedisGServer.lastPing = DateTime.Now;
+                RedisGServer.Update(serverRepo);
                 if (!inputting) { ConsoleInput(); }
                 UpdateTitleStatus();
                 //Checks if there are any join requests on the listener

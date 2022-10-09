@@ -21,3 +21,10 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.CopyComplete
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.exe
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.pdb
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.Hosting.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Newtonsoft.Json.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.Owin.xml

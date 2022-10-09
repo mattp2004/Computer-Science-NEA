@@ -1,44 +1,44 @@
-﻿using System;
+﻿using Microsoft.Owin.Hosting;
+using ServerData.src.redis;
+using ServerData.src.redis.auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ServerData.src.api
 {
-    internal class API
+    public class API
     {
-        public API()
+        public string port;
+        public string Address;
+
+        private List<Thread> Tasks;
+
+        public static API instance;
+        public API(string port)
         {
-            Run().Wait();
+            instance = this;
+            this.port = port;
+
+            Address = $"http://*:{Config.port}/";
+            //Address = $"http://localhost:{Config.port}/";
+            Tasks = new List<Thread>();
         }
 
-        public async Task Run()
+        public void Run()
         {
-            using (var client = new HttpClient())
+            Thread DataTask = new Thread(new ThreadStart(UpdateData));
+            DataTask.Start();
+            Tasks.Add(DataTask);
+            using (WebApp.Start<Config>(url: Address))
             {
-                client.BaseAddress = new Uri("http://localhost:19885/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                Console.WriteLine("GET");
-                HttpResponseMessage response = await client.GetAsync("api/person/3");
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.Write("SUCCESS");
-                }
+                Console.WriteLine($"API Running on {Address}");
+                Console.ReadLine();
             }
         }
-
-        class Person
-        {
-        public long ID { get; set; }
-            public string LastName { get; set; }
-        
-        }
-
-
     }
 }

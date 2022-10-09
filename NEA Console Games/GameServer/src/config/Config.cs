@@ -14,6 +14,7 @@ namespace GameServer.src.config
         public string ServerIP { get; set; }
         public ushort ServerPort { get; set; }
         public bool DevServer { get; set; }
+        public int MaxPlayers { get; set; }
         public string DefaultGame { get; set; }
         public bool Whitelisted { get; set; }
         public WhitelistConfig Whitelist { get; set; }
@@ -36,6 +37,7 @@ namespace GameServer.src.config
         public static string serverIP = "";
         public static ushort serverPort;
         public static bool DevServer = false;
+        public static int MaxPlayers { get; set; }
         public static string DefaultGame = "null";
         public static bool Whitelisted = false;
         public static WhitelistConfig Whitelist = new WhitelistConfig();
@@ -64,9 +66,11 @@ namespace GameServer.src.config
             newConfig.ServerIP = "localhost";
             newConfig.ServerPort = 6000;
             newConfig.DevServer = false;
+            newConfig.MaxPlayers = 50;
             newConfig.DefaultGame = "RPS";
             newConfig.Whitelisted = false;
             newConfig.Whitelist = new WhitelistConfig();
+            newConfig.Whitelist.names.Add("dcdb");
 
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());

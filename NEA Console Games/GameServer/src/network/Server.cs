@@ -39,8 +39,11 @@ namespace GameServer.src.network
         private Dictionary<TcpClient, IGame> ClientGame = new Dictionary<TcpClient, IGame>();
         private List<Thread> Games = new List<Thread>();
 
+
+
         private int Port;
         private string Name;
+        private int MaxPlayers;
 
         private GServer RedisGServer;
         private RedisController redisController;
@@ -55,12 +58,16 @@ namespace GameServer.src.network
         public Server()
         {
             inputting = false;
-            Game = new RPS(this);
             instance = this;
+
+            Game = new RPS(this);
+            rng = new Random();
+
             this.Name = Config.serverName;
             this.Port = Config.serverPort;
-            rng = new Random();
+            MaxPlayers = Config.MaxPlayers;
             ServerStatus = Status.BOOTING;
+
             Util.Debug($"SERVER STATUS: {ServerStatus}");
 
             listener = new TcpListener(IPAddress.Any, Port);
@@ -83,7 +90,7 @@ namespace GameServer.src.network
             List<Task> ConnectionTasks = new List<Task>();
             redisController = new RedisController();
             authRepo = new AuthRepository(redisController);
-            RedisGServer = new GServer(0,Name,Port,"default",clients.Count,50,DateTime.Now, DateTime.Now);
+            RedisGServer = new GServer(0,Name,Port,"default",clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
             serverRepo = new ServerRepository(redisController);
 
             serverRepo.PostServer(RedisGServer);
@@ -120,10 +127,14 @@ namespace GameServer.src.network
                             Game.AddPlayer(lobby[i]);
                         }
                     }                    
+
                     Thread gameThread = new Thread(new ThreadStart(Game.Start));
                     gameThread.Name = $"{Game.GameName}";
                     gameThread.Start();
                     Games.Add(gameThread);
+
+
+
                     UpdateTitleStatus();
                 }
                 for (int i = 0; i < lobby.Count; i++)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ServerData.src.redis.server
 {
@@ -33,6 +34,16 @@ namespace ServerData.src.redis.server
 
             redisController.database.HashSet(name, Hashes);
             servers.Add(server);
+        }
+
+        public void DeleteServer(GServer server)
+        {
+            redisController.database.KeyDelete(server.name + "-" + server.id);
+        }
+
+        public void DeleteServer(string serverName)
+        {
+            redisController.database.KeyDelete(serverName);
         }
     }
 }

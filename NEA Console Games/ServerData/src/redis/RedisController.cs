@@ -19,6 +19,7 @@ namespace ServerData.src.redis
         public RedisStatus status { get; set; }
         public RedisController()
         {
+            status = RedisStatus.DISCONNECTED;
             try
             {
                 var conn = ConnectionMultiplexer.Connect($"localhost:{RedisConfig.PORT},password={RedisConfig.AUTH}");

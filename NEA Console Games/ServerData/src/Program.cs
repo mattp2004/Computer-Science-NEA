@@ -15,22 +15,7 @@ namespace ServerData
     {
         static void Main(string[] args)
         {
-            API RestApi = new API();
-            //GameServer gameServer = new GameServer();
-            //gameServer.port = 6000;
-            //gameServer.name = "GameServer";
-            //gameServer.lastPing = DateTime.Now;
-            //gameServer.creationTime = DateTime.Now;
-            //gameServer.players = 1;
-            //gameServer.maxPlayers = 50;
-            //gameServer.id = 1;
-            //RedisController redisController = new RedisController();
-            //ServerRepository repo = new ServerRepository(redisController);
-            //repo.PostServer(gameServer);
-            //Console.ReadKey();
-            //Auth auth = new Auth("c1a0e30d-9b68tetst4e97-825f-sa", "sfasfsa");
-            //AuthRepository authRepo = new AuthRepository(redisController);
-            //authRepo.PostAuth(auth);
+            DataManager dataManager = new DataManager();
             Console.ReadKey();
         }
     }

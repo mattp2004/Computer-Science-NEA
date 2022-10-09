@@ -70,15 +70,9 @@ namespace ServerData.src.redis.auth
                 }
                 catch(Exception e) { }
             }
-            for(int i = 0; i < newHashes.Count; i++)
-            {
-                Console.WriteLine($"{newHashes[i].Name} | {newHashes[i].Value}");
-                Console.WriteLine($"{hashExpire[newHashes[i].Value]}");
-            }
             HashEntry[] tempHash;
             if (newHashes.Count > 0)
             {
-                Console.Write("FULL");
                 tempHash = new HashEntry[newHashes.Count+1];
                 tempHash[0] = new HashEntry("UUID", "TOKEN");
                 try
@@ -86,19 +80,16 @@ namespace ServerData.src.redis.auth
                     for (int i = 0; i < newHashes.Count; i++)
                     {
                         tempHash[i+1] = newHashes[i];
-                        Console.Write($"TRANSFERING {tempHash[i].Value} | {hashExpire[tempHash[i].Value]} {i}");
                     }
                 }
                 catch(Exception e)
                 {
-                    Console.Write(e.Message);
                 }
                 redisController.database.KeyDelete(KeyName);
                 redisController.database.HashSet(KeyName, tempHash);
             }
             else
             {
-                Console.WriteLine("2");
                 HashEntry[] t = new HashEntry[1];
                 t[0] = new HashEntry("UUID", "TOKEN");
                 redisController.database.KeyDelete(KeyName);

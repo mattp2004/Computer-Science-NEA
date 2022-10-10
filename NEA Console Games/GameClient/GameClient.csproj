@@ -178,6 +178,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\api\ApiConfig.cs" />
+    <Compile Include="src\api\ApiController.cs" />
+    <Compile Include="src\api\ApiRepository.cs" />
     <Compile Include="src\menus\IMenu.cs" />
     <Compile Include="src\menus\impl\Main.cs" />
     <Compile Include="src\menus\impl\Play.cs" />

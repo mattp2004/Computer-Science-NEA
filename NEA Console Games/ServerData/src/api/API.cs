@@ -16,8 +16,6 @@ namespace ServerData.src.api
         public string port;
         public string Address;
 
-        private List<Thread> Tasks;
-
         public static API instance;
         public API(string port)
         {
@@ -26,14 +24,10 @@ namespace ServerData.src.api
 
             Address = $"http://*:{Config.port}/";
             //Address = $"http://localhost:{Config.port}/";
-            Tasks = new List<Thread>();
         }
 
         public void Run()
         {
-            Thread DataTask = new Thread(new ThreadStart(UpdateData));
-            DataTask.Start();
-            Tasks.Add(DataTask);
             using (WebApp.Start<Config>(url: Address))
             {
                 Console.WriteLine($"API Running on {Address}");

@@ -23,6 +23,14 @@ namespace ServerData.src.redis.server
         public void PostServer(GServer server)
         {
             string name = server.name + "-" + server.id;
+            if (!servers.Contains(server))
+            {
+                while (redisController.database.KeyExists(name))
+                {
+                    server.id += 1;
+                    name = server.name + "-" + server.id;
+                }
+            }
             HashEntry[] Hashes = new HashEntry[7];
             Hashes[0] = new HashEntry("id",server.id);
             Hashes[1] = new HashEntry("name", server.name);

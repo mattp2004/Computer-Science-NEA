@@ -16,6 +16,7 @@ namespace ServerData
         static void Main(string[] args)
         {
             DataManager dataManager = new DataManager();
+            dataManager.Run();
             Console.ReadKey();
         }
     }

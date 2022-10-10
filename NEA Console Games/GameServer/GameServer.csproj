@@ -284,6 +284,9 @@
       <Name>ServerData</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\config\GameServer.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.6.3\build\Fody.targets" Condition="Exists('..\packages\Fody.6.6.3\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

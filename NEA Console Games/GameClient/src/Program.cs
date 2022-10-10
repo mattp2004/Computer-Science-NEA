@@ -9,14 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ServerData.src.data;
+using GameClient.src.api;
+using Newtonsoft.Json;
+using ServerData.src.api;
 
 namespace GameClient
 {
     class Program
     {
+        class tokena
+        {
+            public string TOKEN;
+        }
         //Entry point
         static void Main()
         {
+            ApiController apiController = new ApiController();
+            ApiRepository apiRepo = new ApiRepository(apiController);
+            apiRepo.SetAuth(apiRepo.GenerateUUID(), apiRepo.GenerateToken());
+
             Console.ReadKey();
             Client.SetTitle($"Console Games [v{Client.Version}]");
             MenuManager.Init();

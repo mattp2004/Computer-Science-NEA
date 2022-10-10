@@ -90,7 +90,7 @@ namespace GameServer.src.network
             List<Task> ConnectionTasks = new List<Task>();
             redisController = new RedisController();
             authRepo = new AuthRepository(redisController);
-            RedisGServer = new GServer(0,Name,Port,"default",clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
+            RedisGServer = new GServer(1,Name,Port,"default",clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
             serverRepo = new ServerRepository(redisController);
 
             serverRepo.PostServer(RedisGServer);

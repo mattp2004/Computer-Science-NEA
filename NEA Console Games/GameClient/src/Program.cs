@@ -26,6 +26,7 @@ namespace GameClient
         {
             ApiController apiController = new ApiController();
             ApiRepository apiRepo = new ApiRepository(apiController);
+            Console.WriteLine(apiRepo.GenerateToken());
             apiRepo.SetAuth(apiRepo.GenerateUUID(), apiRepo.GenerateToken());
 
             Console.ReadKey();

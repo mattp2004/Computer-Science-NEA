@@ -23,11 +23,6 @@ namespace GameServer
     {
         static void Main()
         {
-            RedisController t = new RedisController();
-            AuthRepository authRepo = new AuthRepository(t);
-            Auth b = new Auth(DataUtil.GenerateUUID(), DataUtil.GenerateToken());
-            authRepo.PostAuth(b);
-            Console.ReadKey();
             BootUp();
             Server _server = new Server();
             _server.Boot();

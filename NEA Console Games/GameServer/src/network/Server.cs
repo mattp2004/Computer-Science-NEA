@@ -88,18 +88,19 @@ namespace GameServer.src.network
             Util.Debug($"SERVER STATUS: {ServerStatus}");
             //Instantiates new list of Tasks to be run on the server
             List<Task> ConnectionTasks = new List<Task>();
-            redisController = new RedisController();
-            authRepo = new AuthRepository(redisController);
-            RedisGServer = new GServer(1,Name,Port,"default",clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
-            serverRepo = new ServerRepository(redisController);
 
-            serverRepo.PostServer(RedisGServer);
+            //redisController = new RedisController();
+            //authRepo = new AuthRepository(redisController);
+            //RedisGServer = new GServer(1,Name,Port,"default",clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
+            //serverRepo = new ServerRepository(redisController);
+
+            //serverRepo.PostServer(RedisGServer);
 
             while (ServerStatus == Status.RUNNING)
             {
-                RedisGServer.players = clients.Count;
-                RedisGServer.lastPing = DateTime.Now;
-                RedisGServer.Update(serverRepo);
+                //RedisGServer.players = clients.Count;
+                //RedisGServer.lastPing = DateTime.Now;
+                //RedisGServer.Update(serverRepo);
                 if (!inputting) { ConsoleInput(); }
                 UpdateTitleStatus();
                 //Checks if there are any join requests on the listener

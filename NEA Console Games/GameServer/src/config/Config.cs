@@ -23,6 +23,10 @@ namespace GameServer.src.config
     class WhitelistConfig
     {
         public List<string> names;
+        public WhitelistConfig()
+        {
+            names = new List<string>();
+        }
     }
 
     class Config
@@ -64,7 +68,7 @@ namespace GameServer.src.config
             customConfig newConfig = new customConfig();
             newConfig.ServerName = "GameServer";
             newConfig.ServerIP = "localhost";
-            newConfig.ServerPort = 6000;
+            newConfig.ServerPort = 8000;
             newConfig.DevServer = false;
             newConfig.MaxPlayers = 50;
             newConfig.DefaultGame = "RPS";

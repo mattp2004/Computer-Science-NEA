@@ -41,7 +41,7 @@ namespace ServerData.src.api.Controllers
         // POST api/values 
         public void Post(Input value)
         {
-            if(value.token == "hello")
+            if(value.token == Config.AccessToken)
             {
                 Console.Write("CORRECT AUTH TOKEN");
                 Console.Write(value.args.input);

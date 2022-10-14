@@ -253,14 +253,14 @@
     <Compile Include="src\redis\RedisConfig.cs" />
     <Compile Include="src\redis\RedisController.cs" />
     <Compile Include="src\redis\server\ServerRepository.cs" />
+    <Compile Include="src\sql\DbConfig.cs" />
+    <Compile Include="src\sql\SQLController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\sql\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -21,6 +21,7 @@ namespace GameClient.src.networking
         public List<Task> TaskList;
         public string Token;
         public string Uuid;
+        public bool InputToggle;
 
         public enum Status
         {
@@ -37,6 +38,7 @@ namespace GameClient.src.networking
             Port = port;
             Uuid = ServerData.src.data.DataUtil.GenerateUUID();
             Token = ServerData.src.data.DataUtil.GenerateToken();
+            InputToggle = false;
         }
 
         public void Connect()
@@ -76,6 +78,10 @@ namespace GameClient.src.networking
             {
                 //Checking for new packets being sent from the server every 10ms
                 TaskList.Add(ReceivePacket());
+                if (InputToggle)
+                {
+                    TaskList.Add(HandleInput("Please enter a message: "));
+                }
                 Thread.Sleep(10);
                 if (isDisconnected(client))
                 {
@@ -126,14 +132,18 @@ namespace GameClient.src.networking
                     }
                     if (packet.Type == "input")
                     {
-                        //Takes in an input
-                        Console.WriteLine(packet.Content);
-                        Console.WriteLine(">");
-
-                        string Response = Console.ReadLine();
-                        //Returns that input to the server through a Response Packet
-                        Packet resp = new Packet("input", Response);
-                        await SendPacket(resp);
+                        if (packet.Content == "on")
+                        {
+                            InputToggle = true;
+                        }
+                        else if(packet.Content == "off")
+                        {
+                            InputToggle = false;
+                        }
+                        else
+                        {
+                            HandleInput(packet.Content);
+                        }
                     }
                     if (packet.Type == "auth")
                     {
@@ -160,6 +170,18 @@ namespace GameClient.src.networking
                 Console.WriteLine($"ERROR: {e.Message} | {e.TargetSite}");
             }
 
+        }
+        
+        public async Task HandleInput(string msg)
+        {
+            //Takes in an input
+            Console.WriteLine(msg);
+            Console.WriteLine(">");
+
+            string Response = Console.ReadLine();
+            //Returns that input to the server through a Response Packet
+            Packet resp = new Packet("input", Response);
+            await SendPacket(resp);
         }
 
         public async Task PacketMessage(Packet packet)

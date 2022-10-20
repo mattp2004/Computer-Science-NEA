@@ -1,7 +1,9 @@
 ﻿using GameServer.src.network;
+using MySql.Data.MySqlClient.Memcached;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -41,13 +43,12 @@ namespace GameServer.src.game.impl
         public bool AddPlayer(TcpClient player)
         {
             Clients.Add(player);
-            string t = Server.RequestInput(player, "Enter a username").GetAwaiter().GetResult();
-            ClientsDictionary.Add(player, t);
             return true;
         }
 
         public void DisconnectClient(TcpClient client)
         {
+            instance.SendPacket(client, new Packet("input", "off"));
             Clients.Remove(client);
         }
 
@@ -57,28 +58,25 @@ namespace GameServer.src.game.impl
             for(int i = 0; i < Clients.Count; i++)
             {
                 dict[Clients[i]] = false;
+                instance.SendPacket(Clients[i], new Packet("input", "on"));
             }
+            List<Task> inputTasks = new List<Task>();
             while (true)
             {
                 for(int i = 0; i < Clients.Count; i++)
                 {
-                    if (dict[Clients[i]] == false)
-                    {
-                        Packet a = new Packet("input", "Enter message:");
-                        instance.SendPacket(Clients[i], a);
-                        dict[Clients[i]] = true;
-                    }
-                    Packet t = instance.ReceiveNonAsyncPacket(Clients[i]);
-                    if (t == null || t.Type != "input"){
-                        continue;
-                    }
-                    else
-                    {
-                        dict[Clients[i]] = false;
-                        Server.SendMessageAll(Clients, t.Content);
-                    }
+                    inputTasks.Add(GetInput(Clients[i]));
                 }
+                Task.WaitAll(inputTasks.ToArray(), 1000);
             }
         }
+
+        public async Task GetInput(TcpClient client)
+        {
+            Packet a = instance.ReceivePacket(client).GetAwaiter().GetResult();
+            Server.SendMessageAll(Clients, a.Content);
+        }
+
+
     }
 }

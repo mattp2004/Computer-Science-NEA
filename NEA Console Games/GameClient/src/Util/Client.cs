@@ -11,7 +11,7 @@ namespace GameClient.src.Util
     {
         public static int messageTime = 25;
         public static ConsoleColor defaultColor = ConsoleColor.White;
-        public static string Version = "0.1";
+        public static string Version = "0.0";
 
         public static void WriteLine(string message)
         {

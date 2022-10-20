@@ -13,7 +13,7 @@ namespace ServerData.src.redis.auth
         public RedisController redisController;
         private static Dictionary<string, long> hashExpire = new Dictionary<string, long>();
         private string KeyName = "Auth";
-        private long AuthExpiry = 900000; //miliseconds
+        private long AuthExpiry = 9000000; //miliseconds
         public AuthRepository(RedisController redisController)
         {
             this.redisController = redisController;
@@ -66,6 +66,10 @@ namespace ServerData.src.redis.auth
                     if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - AuthRepository.hashExpire[t.Value] < AuthExpiry)
                     {
                         newHashes.Add(t);
+                    }
+                    else
+                    {
+                        Console.WriteLine("DELETED");
                     }
                 }
                 catch(Exception e) { }

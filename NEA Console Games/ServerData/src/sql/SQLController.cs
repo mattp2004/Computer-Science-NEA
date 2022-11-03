@@ -22,7 +22,7 @@ namespace ServerData.src.sql
                 Console.WriteLine(e.Message);
             }
         }
-        public string QueryParams(string query, string replace)
+        public static string QueryParams(string query, string replace)
         {
             return query.Replace("?", replace);
         }

@@ -28,6 +28,8 @@ namespace GameClient
             ApiRepository apiRepo = new ApiRepository(apiController);
             Console.WriteLine(apiRepo.GenerateToken());
             apiRepo.SetAuth(apiRepo.GenerateUUID(), apiRepo.GenerateToken());
+
+            Console.ReadKey();
             Client.SetTitle($"Console Games [v{Client.Version}]");
             MenuManager.Init();
             Console.ReadKey();

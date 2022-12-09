@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerData.src.account;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ServerData.src.network
 {
-    class Client
+    public class Client
     {
         public Client(TcpClient _client, string _uuid)
         {

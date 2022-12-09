@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServerData.src.sql
 {
-    class SqlRepository
+    public class SqlRepository
     {
         public SQLController sqlController;
 
@@ -16,11 +16,18 @@ namespace ServerData.src.sql
             sqlController = controller;
         }
 
-        public OdbcDataReader Select(string SQL)
+        //public OdbcDataReader Select(string SQL)
+        //{
+        //    ////OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection);
+        //    //OdbcDataReader results = sqlToRun.ExecuteReader();
+        //    //return results;
+        //    return new OdbcDataReader();
+        //}
+
+        public void Execute(string SQL)
         {
-            OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection);
-            OdbcDataReader results = sqlToRun.ExecuteReader();
-            return results;
+            //OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection);
+            //sqlToRun.ExecuteReader();
         }
     }
 }

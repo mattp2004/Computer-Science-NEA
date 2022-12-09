@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerData.src.account;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,15 @@ namespace GameClient.src.api
         {
             apiController.POST($"http://{ApiConfig.baseAddress}/api/auth?uuid={uuid}&auth={auth}&token={ApiConfig.authKey}");
         }
-    }
+
+        public void CreateAccount(string username, string password)
+        {
+            apiController.POST($"http://{ApiConfig.baseAddress}/api/createaccount?token={ApiConfig.authKey}&username={username}&password={password}");
+        }
+        public string Login(string username, string password)
+        {
+            string t = apiController.GET($"http://{ApiConfig.baseAddress}/api/login?token={ApiConfig.authKey}&username={username}&password={password}");
+            return t;
+        }
+    } 
 }

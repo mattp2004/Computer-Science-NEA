@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -14,6 +15,8 @@ namespace ServerData.src.api
     {
         public static string port = "9000";
         public static string AccessToken = "hello";
+
+
         public void Configuration(IAppBuilder appBuilder)
         {
             // Configure Web API for self-host. 

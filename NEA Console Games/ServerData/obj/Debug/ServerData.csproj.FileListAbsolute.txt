@@ -28,3 +28,9 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.xml
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.Owin.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\BouncyCastle.Crypto.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Google.Protobuf.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\MySql.Data.xml

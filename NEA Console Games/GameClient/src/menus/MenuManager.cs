@@ -1,4 +1,5 @@
-﻿using GameClient.src.menus.impl;
+﻿using GameClient.src.data;
+using GameClient.src.menus.impl;
 using GameClient.src.Util;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,14 @@ namespace GameClient.src.menus
         public static void Init()
         {
             Menus = new List<IMenu>();
-            Menus.Add(new Main(0));
-            Menus.Add(new Play(1));
+            Menus.Add(new Validate(0));
+            Menus.Add(new Main(1));
+            Menus.Add(new Play(2));
 
             MenuOn = true;
 
             Current = Menus[0];
-
+            if (DataManager.GetInstance().loggedIn) { Current = Menus[1]; }
             Menu();
         }
 
@@ -91,6 +93,7 @@ namespace GameClient.src.menus
 
         public static void UpdateCurrent(int id)
         {
+            if(id == 0 && DataManager.GetInstance().loggedIn) { Current = Menus[1]; }
             Current = Menus[id];
         }
     }

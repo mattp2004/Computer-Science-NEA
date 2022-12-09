@@ -1,25 +1,33 @@
-﻿using ServerData.src.api;
+﻿using MySql.Data.MySqlClient;
+using ServerData.src.api;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ServerData.src.sql
 {
-    class SQLController
+    public class SQLController
     {
-        public OdbcConnection connection;
+        public MySqlConnection connection;
         public SQLController()
         {
             try
             {
-                OdbcConnection connection = new System.Data.Odbc.OdbcConnection($"SERVER={DbConfig.HOSTNAME};PORT=3306;DATABASE={DbConfig.DATABASE};USER={DbConfig.USERNAME};PASSWORD={DbConfig.PASSWORD};OPTION=3;");
+                connection = new MySqlConnection();
+                connection.ConnectionString = $"SERVER={DbConfig.HOSTNAME};port=3306;Database={DbConfig.DATABASE};uid={DbConfig.USERNAME};pwd={DbConfig.PASSWORD};";
+                connection.Open();
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    Console.Write("CONNECTED");
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("ERROR# " + e.Message);
             }
         }
         public static string QueryParams(string query, string replace)

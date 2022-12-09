@@ -11,7 +11,6 @@ namespace ServerData.src.api.Controllers.util
     public class TokenController : ApiController
     {
         [Route("api/token/{token}/{count}")]
-
         public IEnumerable<string> Get(string token, int count = 1)
         {
             if (token == Config.AccessToken)

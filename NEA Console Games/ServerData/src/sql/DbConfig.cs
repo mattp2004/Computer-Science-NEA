@@ -10,8 +10,8 @@ namespace ServerData.src.sql
     static class DbConfig
     {
         public const string HOSTNAME = "localhost";
-        public const string USERNAME = "GameServer";
-        public const string PASSWORD = "YZ3L0AYN5cMCSOQZ";
+        public const string USERNAME = "a";
+        public const string PASSWORD = "a";
         public static string DATABASE = "data";
     }
 }

@@ -41,8 +41,6 @@ namespace GameServer.src.game.impl
         public bool AddPlayer(TcpClient player)
         {
             Clients.Add(player);
-            string t = Server.RequestInput(player, "Enter a username").GetAwaiter().GetResult();
-            ClientsDictionary.Add(player, t);
             return true;
         }
 

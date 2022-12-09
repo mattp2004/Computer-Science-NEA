@@ -1,4 +1,5 @@
-﻿using GameClient.src.Util;
+﻿using GameClient.src.data;
+using GameClient.src.Util;
 using ServerData.src.redis;
 using ServerData.src.redis.auth;
 using System;
@@ -19,7 +20,6 @@ namespace GameClient.src.networking
         public NetworkStream stream;
         public Status ClientStatus;
         public List<Task> TaskList;
-        public string Token;
         public string Uuid;
 
         public enum Status
@@ -36,7 +36,6 @@ namespace GameClient.src.networking
             ServerIP = ip;
             Port = port;
             Uuid = ServerData.src.data.DataUtil.GenerateUUID();
-            Token = ServerData.src.data.DataUtil.GenerateToken();
         }
 
         public void Connect()
@@ -60,9 +59,9 @@ namespace GameClient.src.networking
             }
         }
 
-        public void Disconnect()
+        public async void Disconnect()
         {
-            SendPacket(new Packet("disconnect", ""));
+            await SendPacket(new Packet("disconnect", ""));
             //Closes the Network Stream and the TcpClient connection
             ClientStatus = Status.DISCONNECTED;
             stream.Close();
@@ -122,29 +121,20 @@ namespace GameClient.src.networking
                     //PacketTasks[packet.Type].GetAwaiter().GetResult();
                     if (packet.Type == "msg")
                     {
-                        Console.WriteLine(packet.Content);
+                        Client.WriteLine(packet.Content);
+                        //PacketMessage(packet).GetAwaiter().GetResult();
                     }
                     if (packet.Type == "input")
                     {
-                        //Takes in an input
-                        Console.WriteLine(packet.Content);
-                        Console.WriteLine(">");
-
-                        string Response = Console.ReadLine();
-                        //Returns that input to the server through a Response Packet
-                        Packet resp = new Packet("input", Response);
-                        await SendPacket(resp);
+                        PacketInput(packet).GetAwaiter().GetResult();
                     }
                     if (packet.Type == "auth")
                     {
-                        //Takes in an input
-                        Console.WriteLine(packet.Content);
-                        Console.WriteLine(">");
-
-                        string Response = Console.ReadLine();
-                        //Returns that input to the server through a Response Packet
-                        Packet resp = new Packet("input", Response);
-                        await SendPacket(resp);
+                        PacketAuth().GetAwaiter().GetResult();
+                    }
+                    if (packet.Type == "game")
+                    {
+                        GameSelect().GetAwaiter().GetResult();
                     }
                     if (packet.Type == "disconnect")
                     {
@@ -178,9 +168,14 @@ namespace GameClient.src.networking
             await SendPacket(resp);
         }
 
-        public async Task PacketAuth(Packet packet)
+        public async Task PacketAuth()
         {
-            Packet resp = new Packet("auth", Token);
+            Packet resp = new Packet("auth", DataManager.GetInstance().accessToken.Substring(1, DataManager.GetInstance().accessToken.Length - 2));
+            await SendPacket(resp);
+        }
+        public async Task GameSelect()
+        {
+            Packet resp = new Packet("game", DataManager.GetInstance().accessToken.Substring(1, DataManager.GetInstance().accessToken.Length - 2));
             await SendPacket(resp);
         }
 

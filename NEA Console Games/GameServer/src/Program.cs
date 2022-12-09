@@ -16,6 +16,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ServerData.src.redis.auth;
 using GameServer.src.update;
+using ServerData.src.api.Controllers;
+using GameClient.src.data;
 
 namespace GameServer
 {
@@ -23,6 +25,7 @@ namespace GameServer
     {
         static void Main()
         {
+            DataManager dataManager = new DataManager();
             BootUp();
             Server _server = new Server();
             _server.Boot();

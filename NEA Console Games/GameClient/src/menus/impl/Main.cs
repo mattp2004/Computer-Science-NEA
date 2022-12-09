@@ -14,10 +14,10 @@ namespace GameClient.src.menus.impl
         public Main(int _id)
         {
             id = _id;
-            Action a = () => MenuManager.UpdateCurrent(1);
+            Action a = () => MenuManager.UpdateCurrent(id);
             choices = new List<Choice>()
             {
-                new Choice("Play", () => MenuManager.UpdateCurrent(1)),
+                new Choice("Play", () => MenuManager.UpdateCurrent(2)),
                 new Choice("Friends", () => MenuManager.UpdateCurrent(1)),
                 new Choice("Options", () => MenuManager.UpdateCurrent(1)),
                 new Choice("Account", () => MenuManager.UpdateCurrent(1)),

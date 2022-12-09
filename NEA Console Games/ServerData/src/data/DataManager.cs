@@ -44,7 +44,6 @@ namespace ServerData.src.data
             Thread updater = new Thread(UpdateData);
             updater.Start();
             Tasks.Add(updater);
-
             api.Run();
         }
 

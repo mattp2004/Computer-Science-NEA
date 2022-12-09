@@ -251,12 +251,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\account\Account.cs" />
-    <Compile Include="src\account\AccountManager.cs" />
-    <Compile Include="src\account\AccountRepository.cs" />
-    <Compile Include="src\account\Rank.cs" />
-    <Compile Include="src\account\stats\Stats.cs" />
-    <Compile Include="src\account\stats\StatsManager.cs" />
     <Compile Include="src\config\Config.cs" />
     <Compile Include="src\game\IGame.cs" />
     <Compile Include="src\game\impl\Chatroom.cs" />

@@ -16,7 +16,7 @@ namespace GameClient.src.menus.impl
         public Play(int _id)
         {
             id = _id;
-            Action a = () => MenuManager.UpdateCurrent(0);
+            Action a = () => MenuManager.UpdateCurrent(id);
             choices = new List<Choice>()
             {
                 new Choice("QUICK PLAY", () => NetworkManager.QuickPlay()),

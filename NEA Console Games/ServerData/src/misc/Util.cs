@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,10 @@ namespace ServerData.src.misc
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(msg);
             Console.ForegroundColor = temp;
+        }
+        public static string SQLDate(DateTime dateTime)
+        {
+            return $"{dateTime.Year}-{dateTime.Month}-{dateTime.Day}";
         }
     }
 }

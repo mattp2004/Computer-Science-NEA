@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ServerData.src.account
 {
-    class AccountManager
+    public class AccountManager
     {
 
         public static Account FetchAccount(Client _client)

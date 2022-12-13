@@ -9,7 +9,7 @@ namespace GameClient.src.Util
 {
     public static class Client
     {
-        public static int messageTime = 25;
+        public static int messageTime = 0;
         public static ConsoleColor defaultColor = ConsoleColor.White;
         public static string Version = "0.1";
 

@@ -15,18 +15,9 @@ namespace ServerData.src.sql
         {
             sqlController = controller;
         }
-
-        //public OdbcDataReader Select(string SQL)
-        //{
-        //    ////OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection);
-        //    //OdbcDataReader results = sqlToRun.ExecuteReader();
-        //    //return results;
-        //    return new OdbcDataReader();
-        //}
-
         public void Execute(string SQL)
         {
-            //OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection);
+            //OdbcCommand sqlToRun = new OdbcCommand(SQL, sqlController.connection.);
             //sqlToRun.ExecuteReader();
         }
     }

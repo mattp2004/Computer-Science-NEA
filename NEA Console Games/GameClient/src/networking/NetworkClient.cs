@@ -175,7 +175,7 @@ namespace GameClient.src.networking
         }
         public async Task GameSelect()
         {
-            Packet resp = new Packet("game", DataManager.GetInstance().accessToken.Substring(1, DataManager.GetInstance().accessToken.Length - 2));
+            Packet resp = new Packet("game", DataManager.GetInstance().GameSelected.ToString());
             await SendPacket(resp);
         }
 

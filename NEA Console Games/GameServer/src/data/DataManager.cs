@@ -24,7 +24,6 @@ namespace GameServer.src.data
         public ServerRepository serverRepository;
         public AccountRepository accountRepository;
         public AuthRepository authRepository;
-        public ServerRepository serverRepository;
 
         public DataManager()
         {

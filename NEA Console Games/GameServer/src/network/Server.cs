@@ -35,33 +35,44 @@ namespace GameServer.src.network
         private TcpListener listener;
 
         private IGame Game;
-        private List<Client> Clients = new List<Client>();
-        private Dictionary<Games, List<Client>> Queue = new Dictionary<Games, List<Client>>();
-        //private List<TcpClient> clients = new List<TcpClient>();
-        //private List<TcpClient> lobby = new List<TcpClient>();
-        private Dictionary<Client, IGame> ClientGameIn = new Dictionary<Client, IGame>();
-        private List<Thread> Games = new List<Thread>();
+        private List<Client> Clients;
+        private Dictionary<Games, List<Client>> Queue;
+        private Dictionary<Client, IGame> ClientGame;
+        private List<Thread> Games;
+        private Dictionary<Games, IGame> GameTypes;
+        private Dictionary<Client, bool> DisconnectedClients;
 
         private int Port;
         private string Name;
         private int MaxPlayers;
+
+        public Random rng;
+        private static bool inputting;
 
         private GServer RedisGServer;
         private RedisController redisController;
         private AuthRepository authRepo;
         private ServerRepository serverRepo;
 
-        public Random rng;
-        private static bool inputting;
-
         public Status ServerStatus { get; private set; }
 
         public Server()
         {
+            redisController = new RedisController();
+            authRepo = new AuthRepository(redisController);
+            serverRepo = new ServerRepository(redisController);
+
             inputting = false;
             instance = this;
 
-            Game = new RPS(this);
+            Games = new List<Thread>();
+            Clients = new List<Client>();
+            GameTypes = new Dictionary<Games, IGame>();
+            ClientGame = new Dictionary<Client, IGame>();
+            Queue = new Dictionary<Games, List<Client>>();
+            GameTypes.Add(ServerData.src.data.Games.RPS, new RPS(this));
+            Queue.Add(ServerData.src.data.Games.RPS, new List<Client>());
+
             rng = new Random();
 
             this.Name = Config.serverName;
@@ -82,79 +93,81 @@ namespace GameServer.src.network
 
         public void Boot()
         {
+            List<Task> ConnectionTasks = new List<Task>();
+            listener.Start();
             Console.WriteLine($"Game Server started on port {Port}");
             //Starts listener on specified port 
-            listener.Start();
             ServerStatus = Status.RUNNING;
             Util.Debug($"SERVER STATUS: {ServerStatus}");
             //Instantiates new list of Tasks to be run on the server
-            List<Task> ConnectionTasks = new List<Task>();
-
-            redisController = DataManager.instance.redisController;
-            authRepo = DataManager.instance.authRepository;
-            RedisGServer = new GServer(1,Name,Port,"default",Clients.Count,Config.MaxPlayers,DateTime.Now, DateTime.Now);
-            serverRepo = instance.serverRepo;
+            RedisGServer = new GServer(1, Name, Port, "default", Clients.Count, Config.MaxPlayers, DateTime.Now, DateTime.Now);
 
             serverRepo.PostServer(RedisGServer);
-
+            //Server Running
             while (ServerStatus == Status.RUNNING)
             {
+                Config.Debug = true;
+                //Update Redis Stats
                 RedisGServer.players = Clients.Count;
                 RedisGServer.lastPing = DateTime.Now;
                 RedisGServer.Update(serverRepo);
-                if (!inputting) { ConsoleInput().GetAwaiter().GetResult() }
+
+                //Gets input
+                //if (!inputting) { ConsoleInput().GetAwaiter().GetResult(); }
+
+                //Updates title
                 UpdateTitleStatus();
                 //Checks if there are any join requests on the listener
                 if (listener.Pending())
                 {
                     ConnectionTasks.Add(OnNewConnection());
                 }
-                if (lobby.Count >= Game.RequiredPlayers)
+                foreach(var g in GameTypes)
                 {
-                    Util.Debug($"New game starting '{Game.GameName}' with the following clients: ");
-                    if (lobby.Count <= Game.MaxPlayers)
+                    if (Queue[g.Key].Count >= g.Value.RequiredPlayers)
                     {
-                        foreach (TcpClient c in lobby.ToArray())
+                        Util.Debug($"New game starting '{g.Value.GameName}' with the following clients: ");
+                        if (Queue[g.Key].Count <= g.Value.MaxPlayers)
                         {
-                            Util.Debug($" - {c.Client.RemoteEndPoint}");
-                            Game.AddPlayer(c);
-                            lobby.Remove(c);
+                            foreach (Client c in Queue[g.Key].ToArray())
+                            {
+                                Util.Debug($" - {c.uuid}"); ;
+                                g.Value.AddPlayer(c);
+                                Queue[g.Key].Remove(c);
+                            }
                         }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < Game.MaxPlayers; i++)
+                        else
                         {
-                            Util.Debug($" - {lobby[i].Client.RemoteEndPoint}");
-                            Game.AddPlayer(lobby[i]);
+                            for (int i = 0; i < g.Value.MaxPlayers; i++)
+                            {
+                                Util.Debug($" - {Queue[g.Key][i].uuid}");
+                                g.Value.AddPlayer(Queue[g.Key][i]);
+                            }
                         }
-                    }                    
-
-                    Thread gameThread = new Thread(new ThreadStart(Game.Start));
-                    gameThread.Name = $"{Game.GameName}";
-                    gameThread.Start();
-                    Games.Add(gameThread);
-
-
-
-                    UpdateTitleStatus();
-                }
-                for (int i = 0; i < lobby.Count; i++)
-                {
-                    bool disconnected = false;
-                    TcpClient client = lobby[i];
-                    disconnected = isDisconnected(client);
-                    if (disconnected)
-                    {
-                        removeClient(client);
+                        Thread gameThread = new Thread(new ThreadStart(g.Value.Start));
+                        gameThread.Name = $"{g.Value.GameName}";
+                        gameThread.Start();
+                        Games.Add(gameThread);
+                        UpdateTitleStatus();
                     }
-                    Thread.Sleep(10);
+                    for (int i = 0; i < Queue[g.Key].Count; i++)
+                    {
+                        bool disconnected = false;
+                        Client client = Queue[g.Key][i];
+                        disconnected = isDisconnected(client);
+                        if (disconnected)
+                        {
+                            Clients.Remove(client);
+                            removeClient(client);
+                            DisconnectedClients[client] = true;
+                        }
+                        Thread.Sleep(10);
+                    }
                 }
             }
             Task.WaitAll(ConnectionTasks.ToArray(), 1000);
             listener.Stop();
             UpdateTitleStatus();
-
         }
 
         private async Task ConsoleInput()
@@ -208,13 +221,13 @@ namespace GameServer.src.network
             }
         }
 
-        public bool isDisconnected(TcpClient client)
+        public bool isDisconnected(Client client)
         {
             //Checks if the TcpClient has been disconnected
             //https://stackoverflow.com/questions/722240/instantly-detect-client-disconnection-from-server-socket
             try
             {
-                Socket clientSocket = client.Client;
+                Socket clientSocket = client.tcpClient.Client;
                 return clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0;
             }
             catch (SocketException)
@@ -225,6 +238,10 @@ namespace GameServer.src.network
 
         public void removeClient(Client client)
         {
+            try
+            {
+                if (DisconnectedClients[client] == true) { return; }
+            }catch(Exception e) { }
             Console.WriteLine($"{client.tcpClient.Client.RemoteEndPoint} has disconnected from us.");
             //Creates and sends a Disconnect Packet 
             Packet DisconnectPacket = new Packet("disconnect", "You have been disconnected from the server.");
@@ -232,25 +249,33 @@ namespace GameServer.src.network
             //Removes client from the list of clients storing players
             Clients.Remove(client);
             //Removes client from current game they may be in
+            DisconnectedClients[client] = true;
             try
             {
                 ClientGame[client].DisconnectClient(client);
             }
             catch (Exception e) { Util.Error(e); }
+            foreach(var g in Queue)
+            {
+                if (g.Value.Contains(client))
+                {
+                    g.Value.Remove(client);
+                }
+            }                
             Disconnect.GetAwaiter().GetResult();
             DestroyClient(client);
             //Closes client's network stream and client object.
         }
 
-        public void DestroyClient(TcpClient client)
+        public void DestroyClient(Client client)
         {
             try
             {
-                client.GetStream().Close();
-                Util.Debug($"Destroyed client [{client.Client.RemoteEndPoint}]");
+                client.tcpClient.GetStream().Close();
+                Util.Debug($"Destroyed client [{client.uuid}]");
             }
             catch (Exception e) { Util.Error(e); }
-            client.Close();
+            client.tcpClient.Close();
         }
 
         public async Task OnNewConnection()
@@ -261,15 +286,15 @@ namespace GameServer.src.network
             Client client = ValidateConnection(newClient);
             if(client != null)
             {
+                Console.WriteLine("SUCCESS");
                 Util.Debug($"New connection from {newClient.Client.RemoteEndPoint}");
 
                 //Sends welcome message packet
                 string msg = String.Format($"Welcome to the {Name} Game Server");
-                Server.SendMessage(newClient, msg);
+                Server.SendMessage(client, msg);
 
                 //Adds client to the list of clients
                 Clients.Add(client);
-                lobby.Add(client);
             }
         }
 
@@ -385,31 +410,32 @@ namespace GameServer.src.network
             return null;
         }
 
-        public static void SendMessageAll(List<TcpClient> clients, string msg)
+        public static void SendMessageAll(List<Client> clients, string msg)
         {
             Util.Debug($"Sent message {msg} to all clients");
             for (int i = 0; i < clients.Count; i++)
             {
-                instance.SendPacket(clients[i], new Packet("msg", msg));
+                instance.SendPacket(clients[i].tcpClient, new Packet("msg", msg)).GetAwaiter().GetResult();
+                Thread.Sleep(15);
             }
         }
         
-        public static void SendMessage(TcpClient client, string msg)
+        public static void SendMessage(Client client, string msg)
         {
             Util.Debug($"Sent message {msg} to all {client}");
-            instance.SendPacket(client, new Packet("msg", msg));
+            instance.SendPacket(client.tcpClient, new Packet("msg", msg)).GetAwaiter().GetResult();
         }
 
-        public static async Task<string> RequestInput(TcpClient client, string msg)
+        public static async Task<string> RequestInput(Client client, string msg)
         {
             string response = "";
             Packet RequestPacket = new Packet("input", msg);
-            instance.SendPacket(client, RequestPacket);
-            Util.Debug($"Requested input '{msg}' from [{client.Client.RemoteEndPoint}]");
+            instance.SendPacket(client.tcpClient, RequestPacket).GetAwaiter().GetResult();
+            Util.Debug($"Requested input '{msg}' from [{client.uuid}]");
             await Task.Delay(500);
-            Packet Answer = instance.ReceivePacket(client).GetAwaiter().GetResult();
+            Packet Answer = instance.ReceivePacket(client.tcpClient).GetAwaiter().GetResult();
             response += Answer.Content;
-            Util.Debug($"Recieved input '{response}' from [{client.Client.RemoteEndPoint}]");
+            Util.Debug($"Recieved input '{response}' from [{client.uuid}]");
             return response;
         }
 
@@ -417,7 +443,7 @@ namespace GameServer.src.network
         {
             string response = "";
             Packet RequestPacket = new Packet("auth", "auth");
-            instance.SendPacket(client, RequestPacket);
+            instance.SendPacket(client, RequestPacket).GetAwaiter().GetResult();
             Util.Debug($"Requested auth '{"auth"}' from [{client.Client.RemoteEndPoint}]");
             await Task.Delay(500);
             Packet Answer = instance.ReceivePacket(client).GetAwaiter().GetResult();
@@ -430,7 +456,7 @@ namespace GameServer.src.network
         {
             string response = "";
             Packet RequestPacket = new Packet("game", "game");
-            instance.SendPacket(client, RequestPacket);
+            instance.SendPacket(client, RequestPacket).GetAwaiter().GetResult();
             Util.Debug($"Requested game selection '{"game"}' from [{client.Client.RemoteEndPoint}]");
             await Task.Delay(500);
             Packet Answer = instance.ReceivePacket(client).GetAwaiter().GetResult();
@@ -439,10 +465,10 @@ namespace GameServer.src.network
             return response;
         }
 
-        public static async Task<Dictionary<TcpClient, string>> RequestInputAll(List<TcpClient> clients, string msg)
+        public static async Task<Dictionary<Client, string>> RequestInputAll(List<Client> clients, string msg)
         {
             Util.Debug($"Requested input '{msg}' from all players");
-            Dictionary<TcpClient, string> result = new Dictionary<TcpClient, string>();
+            Dictionary<Client, string> result = new Dictionary<Client, string>();
             List<Task> InputTasks = new List<Task>();
             for (int i = 0; i < clients.Count; i++)
             {

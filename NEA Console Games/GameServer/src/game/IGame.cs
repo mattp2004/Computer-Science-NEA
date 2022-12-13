@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerData.src.network;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -18,9 +19,9 @@ namespace GameServer.src.game
         #endregion // Properties
 
         #region Functions
-        bool AddPlayer(TcpClient player);
+        bool AddPlayer(Client player);
 
-        void DisconnectClient(TcpClient client);
+        void DisconnectClient(Client client);
         void Start();
         #endregion // Functions
     }

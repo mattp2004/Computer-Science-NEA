@@ -58,11 +58,10 @@ namespace ServerData.src.account
             return null;
         }
 
-        public Account LoadAccount(Client _client)
+        public void LoadAccount(Client _client)
         {
             MySqlDataReader reader = new MySqlCommand(SQLController.QueryParams(SELECT_ACCOUNT_BY_UUID, _client.uuid), sqlRepository.sqlController.connection).ExecuteReader();
             reader.Read();
-            Account a = null;
             if (reader.HasRows)
             {
                 AccountSet resultSet = new AccountSet();
@@ -75,17 +74,9 @@ namespace ServerData.src.account
                 resultSet.tokens = int.Parse(reader["tokens"].ToString());
                 resultSet.created = DateTime.Now;
                 resultSet.lastjoined = DateTime.Now;
-                a = new Account(resultSet, _client);
+                Account a = new Account(resultSet, _client);
             }
             reader.Close();
-            try
-            {
-                return a;
-            } catch(Exception e)
-            {
-                Util.Error(e);
-                return null;
-            }
         }
         public void CreateAccount(Account account)
         {

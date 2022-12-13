@@ -280,6 +280,7 @@
     <Compile Include="src\api\Config.cs" />
     <Compile Include="src\data\DataManager.cs" />
     <Compile Include="src\data\DataUtil.cs" />
+    <Compile Include="src\data\Games.cs" />
     <Compile Include="src\misc\Util.cs" />
     <Compile Include="src\network\Client.cs" />
     <Compile Include="src\redis\auth\Auth.cs" />

@@ -252,11 +252,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\config\Config.cs" />
+    <Compile Include="src\data\DataManager.cs" />
     <Compile Include="src\game\IGame.cs" />
-    <Compile Include="src\game\impl\Chatroom.cs" />
     <Compile Include="src\game\impl\RPS.cs" />
     <Compile Include="src\misc\Util.cs" />
-    <Compile Include="src\network\Client.cs" />
     <Compile Include="src\network\Packet.cs" />
     <Compile Include="src\network\Server.cs" />
     <Compile Include="src\Program.cs" />
@@ -269,6 +268,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\GameClient\GameClient.csproj">
+      <Project>{BEE3735B-22B4-44A6-91EC-8F8164A932E9}</Project>
+      <Name>GameClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServerData\ServerData.csproj">
       <Project>{1b4ffa58-26ad-486f-a547-3f270d150213}</Project>
       <Name>ServerData</Name>

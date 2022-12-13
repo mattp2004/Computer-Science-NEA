@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using ServerData.src.misc;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace ServerData.src.redis
                     status = RedisStatus.CONNECTED;
                 }
             }
-            catch(Exception e) { }
+            catch(Exception e) { Util.Error(e); }
         }
 
     }

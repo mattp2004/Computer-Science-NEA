@@ -36,9 +36,10 @@ namespace GameClient.src.data
             string password = Client.GetInput();
             string output = DataManager.GetInstance().apiRepo.Login(username, password);
             Client.WriteLine(output);
-            if(output == "FAILED")
+            if(output.Substring(1,output.Length-2) == "FAILED")
             {
                 Client.WriteLine("Incorrect username or password.", ConsoleColor.Red, false);
+                Thread.Sleep(2500);
                 MenuManager.UpdateCurrent(0);
             }
             else

@@ -1,12 +1,9 @@
 ﻿using GameServer.src.misc;
 using GameServer.src.network;
+using ServerData.src.network;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace GameServer.src.game.impl
 {
@@ -14,7 +11,7 @@ namespace GameServer.src.game.impl
     {
         Random rng;
         Server serverInstance;
-        List<TcpClient> Players = new List<TcpClient>();
+        List<Client> Players = new List<Client>();
         Status GameStatus;
         //Properties
         #region properties
@@ -34,13 +31,13 @@ namespace GameServer.src.game.impl
 
         public RPS(Server server)
         {
-            Players = new List<TcpClient>();
+            Players = new List<Client>();
             serverInstance = server;
             rng = new Random();
             GameStatus = Status.STOPPED;
         }
 
-        public bool AddPlayer(TcpClient player)
+        public bool AddPlayer(Client player)
         {
             if (!Players.Contains(player))
             {
@@ -50,7 +47,7 @@ namespace GameServer.src.game.impl
             return false;
         }
 
-        public void DisconnectClient(TcpClient client)
+        public void DisconnectClient(Client client)
         {
             Players.Remove(client);
         }
@@ -64,13 +61,14 @@ namespace GameServer.src.game.impl
                 Server.SendMessage(Players[i], $"You are player {i + 1}");
             }
 
-            Dictionary<TcpClient, string> Responses = new Dictionary<TcpClient, string>();
+            Dictionary<Client, string> Responses = new Dictionary<Client, string>();
             GameStatus = Status.RUNNING;
 
             //Gets player inputs
             Thread.Sleep(15);
             Responses = Server.RequestInputAll(Players, "Please pick either R/P/S").GetAwaiter().GetResult();
             Server.SendMessageAll(Players, $"PLAYER 1 CHOSE: {Responses[Players[0]]}");
+            Thread.Sleep(15);
             Server.SendMessageAll(Players, $"PLAYER 2 CHOSE: {Responses[Players[1]]}");
             if (Responses[Players[0]].ToLower() == "r")
             {

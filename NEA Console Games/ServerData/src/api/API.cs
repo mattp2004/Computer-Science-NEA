@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Hosting;
+using ServerData.src.api.Controllers.util;
 using ServerData.src.redis;
 using ServerData.src.redis.auth;
 using System;
@@ -30,7 +31,7 @@ namespace ServerData.src.api
         {
             using (WebApp.Start<Config>(url: Address))
             {
-                Console.WriteLine($"API Running on {Address}");
+                TextUtil.WriteLine($"\nAPI now Running on {Address}.", ConsoleColor.Cyan);
                 Console.ReadLine();
             }
         }

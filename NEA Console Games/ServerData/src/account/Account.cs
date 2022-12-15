@@ -65,8 +65,7 @@ namespace ServerData.src.account
 
         public string ToJson()
         {
-            string json = JsonConvert.SerializeObject(this);
-            return json;
+            return JsonConvert.SerializeObject(this);
         }
 
         public override string ToString()

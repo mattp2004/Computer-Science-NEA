@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using ServerData.src.api;
+using ServerData.src.api.Controllers.util;
 using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -22,7 +23,7 @@ namespace ServerData.src.sql
                 connection.Open();
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    Console.Write("CONNECTED");
+                    TextUtil.WriteLine($"Connected to MariaDB.", ConsoleColor.Green);
                 }
             }
             catch (Exception e)

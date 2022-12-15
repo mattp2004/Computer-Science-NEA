@@ -1,1 +1,0 @@
-{"ServerName":"GameServer","ServerIP":"localhost","ServerPort":6000,"DevServer":false,"MaxPlayers":50,"DefaultGame":"RPS","Whitelisted":false,"Whitelist":{"names":["dcdb"]}}

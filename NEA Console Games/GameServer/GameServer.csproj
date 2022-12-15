@@ -254,6 +254,7 @@
     <Compile Include="src\config\Config.cs" />
     <Compile Include="src\data\DataManager.cs" />
     <Compile Include="src\game\IGame.cs" />
+    <Compile Include="src\game\impl\GUESS.cs" />
     <Compile Include="src\game\impl\RPS.cs" />
     <Compile Include="src\misc\Util.cs" />
     <Compile Include="src\network\Packet.cs" />

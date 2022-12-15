@@ -271,9 +271,12 @@
     <Compile Include="src\account\AccountRepository.cs" />
     <Compile Include="src\account\Rank.cs" />
     <Compile Include="src\api\API.cs" />
+    <Compile Include="src\api\Controllers\account\AccountExistsController.cs" />
+    <Compile Include="src\api\Controllers\account\AccountViewController.cs" />
     <Compile Include="src\api\Controllers\account\CreateAccountController.cs" />
     <Compile Include="src\api\Controllers\account\LoginController.cs" />
     <Compile Include="src\api\Controllers\AuthController.cs" />
+    <Compile Include="src\api\Controllers\util\TextUtil.cs" />
     <Compile Include="src\api\Controllers\util\TokenController.cs" />
     <Compile Include="src\api\Controllers\util\UuidController.cs" />
     <Compile Include="src\api\Controllers\ValuesController.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="src\redis\auth\Auth.cs" />
     <Compile Include="src\redis\auth\AuthRepository.cs" />
     <Compile Include="src\redis\lobbies\GameLobby.cs" />
+    <Compile Include="src\redis\lobbies\GameRepository.cs" />
     <Compile Include="src\redis\server\GServer.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

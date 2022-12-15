@@ -27,6 +27,8 @@ namespace GameClient.src.menus
             Menus.Add(new Validate(0));
             Menus.Add(new Main(1));
             Menus.Add(new Play(2));
+            Menus.Add(new Options(3));
+            Menus.Add(new Account(4));
 
             MenuOn = true;
 
@@ -42,8 +44,28 @@ namespace GameClient.src.menus
             {
                 Console.CursorVisible = false;
                 Console.Clear();
+                if (Current == Menus[0] && DataManager.GetInstance().loggedIn)
+                {
+                    Current = Menus[1];
+                }
                 if (FirstLaunch) { Client.WriteLine(title); }
                 else { Console.WriteLine(title); }
+                if (Current.Text != null)
+                {
+                    Console.WriteLine(); Console.WriteLine();
+                    if (Current == Menus[1])
+                    {
+                        Client.WriteLine($" " + Current.Text[0], ConsoleColor.Blue, true);
+                    }
+                    for (int i = 0; i < Current.Text.Count; i++)
+                    {
+                        if(Current == Menus[1]) { continue; }
+                        else
+                        {
+                            Client.WriteLine($"" + Current.Text[i]);
+                        }
+                    }
+                }
                 for (int i = 0; i < Current.GetChoices().Count; i++)
                 {
                     Console.WriteLine(); Console.WriteLine();
@@ -93,7 +115,11 @@ namespace GameClient.src.menus
 
         public static void UpdateCurrent(int id)
         {
-            if(id == 0 && DataManager.GetInstance().loggedIn) { Current = Menus[1]; }
+            if(id == 1)
+            {
+                DataManager.instance.GetData();
+            }
+            if (id == 0 && DataManager.GetInstance().loggedIn) { Current = Menus[1]; }
             Current = Menus[id];
         }
     }

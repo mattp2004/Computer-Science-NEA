@@ -1,5 +1,6 @@
 ﻿using GameClient.src.data;
 using GameClient.src.Util;
+using ServerData.src.network;
 using ServerData.src.redis;
 using ServerData.src.redis.auth;
 using System;
@@ -9,6 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Client = GameClient.src.Util.Client;
 
 namespace GameClient.src.networking
 {
@@ -21,6 +23,8 @@ namespace GameClient.src.networking
         public Status ClientStatus;
         public List<Task> TaskList;
         public string Uuid;
+        public bool PreviousConnection;
+        public bool RequestDisconnect;
 
         public enum Status
         {
@@ -57,6 +61,11 @@ namespace GameClient.src.networking
                 Console.WriteLine("Connected to the server.");
                 Run();
             }
+            else
+            {
+                _cleanupNetworkResources();
+                Console.WriteLine("Unable to connect to server");
+            }
         }
 
         public async void Disconnect()
@@ -64,25 +73,49 @@ namespace GameClient.src.networking
             await SendPacket(new Packet("disconnect", ""));
             //Closes the Network Stream and the TcpClient connection
             ClientStatus = Status.DISCONNECTED;
-            stream.Close();
-            client.Close();
+            RequestDisconnect = true;
+        }
+
+        public void HandleDisconnect(Packet p)
+        {
+            ClientStatus = Status.DISCONNECTED;
+            Console.Write(p.Content);
+            Thread.Sleep(1500);
+        }
+
+        public bool isDisconnected(TcpClient client)
+        {
+            //Checks if the TcpClient has been disconnected
+            //https://stackoverflow.com/questions/722240/instantly-detect-client-disconnection-from-server-socket
+            try
+            {
+                Socket clientSocket = client.Client;
+                return clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0;
+            }
+            catch (SocketException) { return true; }
         }
 
         public void Run()
         {
             TaskList = new List<Task>();
+            PreviousConnection = true;
             while (ClientStatus == Status.CONNECTED)
             {
                 //Checking for new packets being sent from the server every 10ms
                 TaskList.Add(ReceivePacket());
                 Thread.Sleep(10);
-                if (isDisconnected(client))
+                if (isDisconnected(client) && !RequestDisconnect)
                 {
-                    Console.WriteLine("Disconnected from server.");
+                    Console.WriteLine("Server has disconnected from us.");
                     ClientStatus = Status.DISCONNECTED;
                 }
             }
-            Task.WaitAll(TaskList.ToArray(), 1000); Console.ReadLine();
+            Task.WaitAll(TaskList.ToArray(), 1000);
+            _cleanupNetworkResources();
+            if (PreviousConnection)
+            {
+                Console.WriteLine("Disconnected.");
+            }
         }
 
         public async Task ReceivePacket()
@@ -109,16 +142,6 @@ namespace GameClient.src.networking
                     //Converts the bytes into a string then deserializes it into a Packet object.
                     string JsonString = Encoding.UTF8.GetString(Data);
                     packet = Packet.Deserialize(JsonString);
-
-                    //Dictionary<string, Task> PacketTasks = new Dictionary<string, Task>();
-                    //PacketTasks.Add("msg", PacketMessage(packet));
-                    //PacketTasks.Add("input", PacketInput(packet));
-                    //PacketTasks.Add("auth", PacketAuth(packet));
-                    //PacketTasks.Add("disconnect", PacketDisconnect(packet));
-
-                    //Console.Write(PacketTasks[packet.Type]);
-                    //PacketTasks[packet.Type].Start();
-                    //PacketTasks[packet.Type].GetAwaiter().GetResult();
                     if (packet.Type == "msg")
                     {
                         Client.WriteLine(packet.Content);
@@ -139,8 +162,7 @@ namespace GameClient.src.networking
                     if (packet.Type == "disconnect")
                     {
                         //Disconnects the Client after having recieved a disconnect packet.
-                        Console.WriteLine(packet.Content);
-                        ClientStatus = Status.DISCONNECTED;
+                        HandleDisconnect(packet);
                     }
                 }
 
@@ -186,6 +208,13 @@ namespace GameClient.src.networking
             Disconnect();
         }
 
+        private void _cleanupNetworkResources()
+        {
+            stream?.Close();
+            stream = null;
+            client.Close();
+        }
+
         public async Task SendPacket(Packet packet)
         {
             try
@@ -208,18 +237,6 @@ namespace GameClient.src.networking
             {
                 Console.WriteLine($"ERROR: {e.Message} | {e.TargetSite}");
             }
-        }
-
-        public bool isDisconnected(TcpClient client)
-        {
-            //Checks if the TcpClient has been disconnected
-            //https://stackoverflow.com/questions/722240/instantly-detect-client-disconnection-from-server-socket
-            try
-            {
-                Socket clientSocket = client.Client;
-                return clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0;
-            }
-            catch (SocketException) { return true; }
         }
     }
 }

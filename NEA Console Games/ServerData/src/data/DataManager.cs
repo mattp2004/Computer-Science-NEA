@@ -15,6 +15,7 @@ namespace ServerData.src.data
 {
     class DataManager
     {
+        public bool debug;
         public static DataManager instance;
         public RedisController redisController;
         public SQLController sqlController;
@@ -28,6 +29,8 @@ namespace ServerData.src.data
         public DataManager()
         {
             instance = this;
+
+            debug = true;
 
             Tasks = new List<Thread>();
             redisController = new RedisController();

@@ -1,4 +1,5 @@
-﻿using ServerData.src.misc;
+﻿using ServerData.src.api.Controllers.util;
+using ServerData.src.misc;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace ServerData.src.redis
                 database = conn.GetDatabase();
                 if (conn.IsConnected)
                 {
-                    Console.WriteLine("CONNECTED");
+                    TextUtil.WriteLine($"Connected to Redis Database.", ConsoleColor.Green);
                     status = RedisStatus.CONNECTED;
                 }
             }

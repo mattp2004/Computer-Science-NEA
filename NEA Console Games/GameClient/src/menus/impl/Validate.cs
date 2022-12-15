@@ -12,14 +12,17 @@ namespace GameClient.src.menus.impl
         private List<Choice> choices;
         public int id;
 
+        public List<string> Text { get; set; }
+
         public Validate(int _id)
         {
+            Text = null;
             id = _id;
             Action a = () => MenuManager.UpdateCurrent(id);
             choices = new List<Choice>()
             {
                 new Choice("Login", () => DataManager.GetInstance().Login()),
-                new Choice("Register", () => MenuManager.UpdateCurrent(0)),
+                new Choice("Register", () => DataManager.GetInstance().Register()),
                 new Choice("Quit", () => Environment.Exit(0)),
             };
         }

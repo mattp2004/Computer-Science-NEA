@@ -42,5 +42,17 @@ namespace GameClient.src.api
             string t = apiController.GET($"http://{ApiConfig.baseAddress}/api/login?token={ApiConfig.authKey}&username={username}&password={password}");
             return t;
         }
+
+        public string AccountView(string username)
+        {
+            return apiController.GET($"http://{ApiConfig.baseAddress}/api/accountview?token={ApiConfig.authKey}&username={username}");
+        }
+
+        public bool AccountExists(string username)
+        {
+            string t = apiController.GET($"http://{ApiConfig.baseAddress}/api/accountexists?token={ApiConfig.authKey}&username={username}");
+            t = t.Substring(1, t.Length - 2);
+            return bool.Parse(t);
+        }
     } 
 }

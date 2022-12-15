@@ -11,8 +11,11 @@ namespace GameClient.src.menus.impl
         private List<Choice> choices;
         public int id;
 
+        public List<string> Text { get; set; }
+
         public Register(int _id)
         {
+            Text = null;
             id = _id;
             Action a = () => MenuManager.UpdateCurrent(id);
             choices = new List<Choice>()

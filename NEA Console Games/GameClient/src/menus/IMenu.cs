@@ -12,12 +12,13 @@ namespace GameClient.src.menus
         {
             ChoiceName = name; ChoiceExecute = action;
         }
-        public string ChoiceName { get; }
+        public string ChoiceName { get; set; }
         public Action ChoiceExecute { get; }
 
     }
     public interface IMenu
     {
+        List<string> Text { get; set; }
         List<Choice> GetChoices();
         int GetID();
     }

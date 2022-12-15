@@ -183,7 +183,9 @@
     <Compile Include="src\api\ApiRepository.cs" />
     <Compile Include="src\data\DataManager.cs" />
     <Compile Include="src\menus\IMenu.cs" />
+    <Compile Include="src\menus\impl\Account.cs" />
     <Compile Include="src\menus\impl\Main.cs" />
+    <Compile Include="src\menus\impl\Options.cs" />
     <Compile Include="src\menus\impl\Play.cs" />
     <Compile Include="src\menus\impl\Register.cs" />
     <Compile Include="src\menus\impl\Validate.cs" />

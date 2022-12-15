@@ -8,7 +8,7 @@ namespace GameClient.src.networking
 {
     class NetworkManager
     {
-        public static void QuickPlay()
+        public static void Play()
         {
             NetworkClient test = new NetworkClient("38.242.132.154", 6000);
             test.Connect();

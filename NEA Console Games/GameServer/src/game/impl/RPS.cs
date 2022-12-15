@@ -1,8 +1,10 @@
 ﻿using GameServer.src.misc;
 using GameServer.src.network;
+using ServerData.src.data;
 using ServerData.src.network;
 using System;
 using System.Collections.Generic;
+using System.Management.Instrumentation;
 using System.Threading;
 
 namespace GameServer.src.game.impl
@@ -56,10 +58,6 @@ namespace GameServer.src.game.impl
         {
             Server.SendMessageAll(Players, "Welcome to RPS");
             Thread.Sleep(15);
-            for (int i = 0; i < Players.Count; i++)
-            {
-                Server.SendMessage(Players[i], $"You are player {i + 1}");
-            }
 
             Dictionary<Client, string> Responses = new Dictionary<Client, string>();
             GameStatus = Status.RUNNING;
@@ -67,18 +65,18 @@ namespace GameServer.src.game.impl
             //Gets player inputs
             Thread.Sleep(15);
             Responses = Server.RequestInputAll(Players, "Please pick either R/P/S").GetAwaiter().GetResult();
-            Server.SendMessageAll(Players, $"PLAYER 1 CHOSE: {Responses[Players[0]]}");
-            Thread.Sleep(15);
-            Server.SendMessageAll(Players, $"PLAYER 2 CHOSE: {Responses[Players[1]]}");
+            Server.SendMessageAll(Players, $"{Players[0].GetAccount().GetUsername()} CHOSE: {Responses[Players[0]]}");
+            Thread.Sleep(40);
+            Server.SendMessageAll(Players, $"{Players[1].GetAccount().GetUsername()} CHOSE: {Responses[Players[1]]}");
             if (Responses[Players[0]].ToLower() == "r")
             {
                 if (Responses[Players[1]].ToLower() == "s")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                    Server.SendMessageAll(Players, $"{Players[0].GetAccount().GetUsername()} WON");
                 }
                 else if (Responses[Players[1]].ToLower() == "p")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                    Server.SendMessageAll(Players, $"{Players[1].GetAccount().GetUsername()} WON");
                 }
                 else
                 {
@@ -89,11 +87,11 @@ namespace GameServer.src.game.impl
             {
                 if (Responses[Players[1]].ToLower() == "p")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                    Server.SendMessageAll(Players, $"{Players[0].GetAccount().GetUsername()} WON");
                 }
                 else if (Responses[Players[1]].ToLower() == "r")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                    Server.SendMessageAll(Players, $"{Players[1].GetAccount().GetUsername()} WON");
                 }
                 else
                 {
@@ -104,34 +102,29 @@ namespace GameServer.src.game.impl
             {
                 if (Responses[Players[1]].ToLower() == "r")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 1 WON");
+                    Server.SendMessageAll(Players, $"{Players[0].GetAccount().GetUsername()} WON");
                 }
                 else if (Responses[Players[1]].ToLower() == "s")
                 {
-                    Server.SendMessageAll(Players, $"PLAYER 2 WON");
+                    Server.SendMessageAll(Players, $"{Players[1].GetAccount().GetUsername()} WON");
                 }
                 else
                 {
                     Server.SendMessageAll(Players, $"IT'S A DRAW");
                 }
             }
+            serverInstance.accountRepository.GiveTokens(Players[0].GetAccount(), 250);
+            serverInstance.accountRepository.GiveTokens(Players[1].GetAccount(), 250);
+            Server.SendMessageAll(Players, "You have been awarded 250 tokens for playing!");
             Console.WriteLine("Game ending");
+            serverInstance.Queue[ServerData.src.data.Games.RPS].Clear();
+            serverInstance.GameTypes.Remove(Games.RPS);
+            serverInstance.GameTypes.Add(Games.RPS, new RPS(serverInstance));
             Thread.Sleep(9500);
-            for (int i = 0; i < Players.Count; i++)
-            {
-                try
-                {
-                    serverInstance.removeClient(Players[i]);
-                }
-                catch (Exception e)
-                {
-                    Util.Error(e);
-                }
-                if (serverInstance.isDisconnected(Players[i]))
-                {
-                    Console.WriteLine("Client disconnected from game.");
-                }
-            }
+            serverInstance.DisconnectClient(Players[0], "Game ended");
+            Thread.Sleep(150);
+            serverInstance.DisconnectClient(Players[1], "Game ended");
+            Thread.Sleep(1000);
         }
     }
 }

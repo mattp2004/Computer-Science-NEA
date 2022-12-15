@@ -9,7 +9,7 @@ namespace ServerData.src.data
     public enum Games
     {
         RPS,
-        CHAT_ROOM
+        GUESS
     }
 
 }

@@ -1,0 +1,3 @@
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\WEB\obj\Debug\WEB.csproj.AssemblyReference.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\WEB\obj\Debug\WEB.csproj.SuggestedBindingRedirects.cache
+C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\WEB\obj\Debug\WEB.csproj.CoreCompileInputs.cache

@@ -151,6 +151,14 @@ namespace GameClient.src.networking
                     {
                         PacketInput(packet).GetAwaiter().GetResult();
                     }
+                    if(packet.Type == "title")
+                    {
+                        if (packet.Content == "reset")
+                        {
+                            Client.SetTitle(Client.Title);
+                        }
+                        Client.SetTitle(packet.Content);
+                    }
                     if (packet.Type == "auth")
                     {
                         PacketAuth().GetAwaiter().GetResult();
@@ -193,11 +201,13 @@ namespace GameClient.src.networking
         public async Task PacketAuth()
         {
             Packet resp = new Packet("auth", DataManager.GetInstance().accessToken.Substring(1, DataManager.GetInstance().accessToken.Length - 2));
+            Console.WriteLine("Sent packet: " + resp.Type + " " + resp.Content);
             await SendPacket(resp);
         }
         public async Task GameSelect()
         {
             Packet resp = new Packet("game", DataManager.GetInstance().GameSelected.ToString());
+            Console.WriteLine("Sent packet: " + resp.Type + " " + resp.Content);
             await SendPacket(resp);
         }
 

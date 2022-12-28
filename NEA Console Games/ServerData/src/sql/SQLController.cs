@@ -7,6 +7,7 @@ using System.Data.Odbc;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ServerData.src.sql
@@ -31,6 +32,20 @@ namespace ServerData.src.sql
                 Console.WriteLine("ERROR# " + e.Message);
             }
         }
+
+        public void RefreshConnection()
+        {
+            connection.Close();
+            Thread.Sleep(15);
+            connection = new MySqlConnection();
+            connection.ConnectionString = $"SERVER={DbConfig.HOSTNAME};port=3306;Database={DbConfig.DATABASE};uid={DbConfig.USERNAME};pwd={DbConfig.PASSWORD};";
+            connection.Open();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                TextUtil.WriteLine($"Connected to MariaDB.", ConsoleColor.Green);
+            }
+        }
+
         public static string QueryParams(string query, string replace)
         {
             return query.Replace("?", replace);

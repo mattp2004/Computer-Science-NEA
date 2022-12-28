@@ -26,6 +26,7 @@ namespace GameClient.src.menus.impl
                 new Choice("QUICK PLAY", () => NetworkManager.Play()),
                 new Choice("RPS", () => SetGame(ServerData.src.data.Games.RPS)),
                 new Choice("GUESS NUMBER", () => SetGame(ServerData.src.data.Games.GUESS)),
+                new Choice("BLACKJACK", () => SetGame(ServerData.src.data.Games.BLACKJACK)),
                 new Choice("GO BACK", () => MenuManager.UpdateCurrent(0))
 
             };

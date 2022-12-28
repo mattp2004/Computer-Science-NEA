@@ -33,10 +33,10 @@ namespace ServerData.src.account
     }
     public class AccountRepository
     {
-        private static string SELECT_ACCOUNT_BY_UUID = "SELECT * FROM accounts WHERE uuid='?'";
-        private static string SELECT_ACCOUNT_BY_USER = "SELECT * FROM accounts WHERE username='?'";
-        private static string SELECT_RANK_BY_UUID = "SELECT Rank FROM accounts WHERE uuid='?'";
-        private static string SELECT_USERNAME_BY_USERNAME = "SELECT username FROM accounts WHERE username='?'";
+        private static string SELECT_ACCOUNT_BY_UUID = "SELECT * FROM Accounts WHERE uuid='?'";
+        private static string SELECT_ACCOUNT_BY_USER = "SELECT * FROM Accounts WHERE username='?'";
+        private static string SELECT_RANK_BY_UUID = "SELECT Rank FROM Accounts WHERE uuid='?'";
+        private static string SELECT_USERNAME_BY_USERNAME = "SELECT username FROM Accounts WHERE username='?'";
         public SqlRepository sqlRepository;
 
         public AccountRepository(SqlRepository sqlRepository)
@@ -75,7 +75,7 @@ namespace ServerData.src.account
 
         public void GiveTokens(Account acc, int num)
         {
-            string query = $"UPDATE accounts SET tokens = tokens + {num} WHERE uuid = '{acc.GetUuid()}'";
+            string query = $"UPDATE Accounts SET tokens = tokens + {num} WHERE uuid = '{acc.GetUuid()}'";
             MySqlCommand a = new MySqlCommand(query, sqlRepository.sqlController.connection);
             a.ExecuteNonQuery();
         }
@@ -114,14 +114,14 @@ namespace ServerData.src.account
         }
         public void CreateAccount(Account account)
         {
-            string query = $"INSERT INTO `accounts` (`id`, `uuid`, `username`, `password`, `rank`, `tokens`, `created`, `lastjoined`) VALUES (NULL, '{account.GetUuid()}', '{account.GetUsername()}', '{account.GetPassword()}', '{account.GetRank()}', '{account.GetTokens()}', '{Util.SQLDate(DateTime.Now)}', '{Util.SQLDate(DateTime.Now)}')";
+            string query = $"INSERT INTO `Accounts` (`id`, `uuid`, `username`, `password`, `rank`, `tokens`, `created`, `lastjoined`) VALUES (NULL, '{account.GetUuid()}', '{account.GetUsername()}', '{account.GetPassword()}', '{account.GetRank()}', '{account.GetTokens()}', '{Util.SQLDate(DateTime.Now)}', '{Util.SQLDate(DateTime.Now)}')";
             MySqlCommand a = new MySqlCommand(query,sqlRepository.sqlController.connection);
             a.ExecuteNonQuery();
         }
 
         public void CreateAccount(string username, string password)
         {
-            string query = $"INSERT INTO `accounts` (`id`, `uuid`, `username`, `password`, `rank`, `tokens`, `created`, `lastjoined`) VALUES (NULL, '{DataUtil.GenerateUUID()}', '{username}', '{password}', 'USER', '0', '{Util.SQLDate(DateTime.Now)}', '{Util.SQLDate(DateTime.Now)}')";
+            string query = $"INSERT INTO `Accounts` (`id`, `uuid`, `username`, `password`, `rank`, `tokens`, `created`, `lastjoined`) VALUES (NULL, '{DataUtil.GenerateUUID()}', '{username}', '{password}', 'USER', '0', '{Util.SQLDate(DateTime.Now)}', '{Util.SQLDate(DateTime.Now)}')";
             MySqlCommand a = new MySqlCommand(query, sqlRepository.sqlController.connection);
             a.ExecuteNonQuery();
         }

@@ -1,4 +1,5 @@
-﻿using ServerData.src.redis.server;
+﻿using Newtonsoft.Json;
+using ServerData.src.redis.server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,16 @@ namespace ServerData.src.data
         public void Update(ServerRepository repo)
         {
             repo.PostServer(this);
+        }
+
+        public override string ToString()
+        {
+            return $"ID: {id}\nNAME: {name}\nPORT: {port}\nTYPE: {type}\nPLAYERS: {players}\nMAX PLAYERS: {maxPlayers}\nCREATED: {creationTime}\nLAST PING: {lastPing}";
+        }
+
+        public string ToJson()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

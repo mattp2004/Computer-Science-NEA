@@ -55,7 +55,8 @@ namespace GameClient.src.data
                 MenuManager.UpdateCurrent(1);
                 Client.WriteLine("Successfully logged in.", ConsoleColor.Green, false);
                 GetData();
-                Client.SetTitle(Console.Title + " | (" + username + ")");
+                Client.Title = Client.Title + " | (" + username + ")";
+                Client.SetTitle(Client.Title);
                 Thread.Sleep(2500);
             }
         }
@@ -77,11 +78,11 @@ namespace GameClient.src.data
                 {
                     Client.WriteLine("INVALID", ConsoleColor.Red, false);
                 }
-                //if (apiRepo.AccountExists(username))
-                //{
-                //    valid = false;
-                //    Client.WriteLine("INVALID: USERNAME TAKEN.", ConsoleColor.Red, false);
-                //}
+                if (apiRepo.AccountExists(username))
+                {
+                    valid = false;
+                    Client.WriteLine("INVALID: USERNAME TAKEN.", ConsoleColor.Red, false);
+                }
             }
             Client.WriteLine("Please enter a password between 6-18 characters");
             valid = false;

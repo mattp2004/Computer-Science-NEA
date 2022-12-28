@@ -12,12 +12,21 @@ namespace ServerData.src.redis.server
     public class ServerRepository
     {
         private RedisController redisController { get; }
+        public long ServerExpiry = 60000;
+
         private List<GServer> servers;
 
         public ServerRepository(RedisController redisController)
         {
             this.redisController = redisController;
             servers = new List<GServer>();
+        }
+        
+        public GServer GetServer(string name)
+        {
+            HashEntry[] Hashes = redisController.database.HashGetAll(name);
+            GServer t = new GServer(int.Parse(Hashes[0].Value), Hashes[1].Value, int.Parse(Hashes[2].Value), "GameServer", int.Parse(Hashes[3].Value), int.Parse(Hashes[4].Value), DateTime.Parse(Hashes[5].Value), DateTime.Parse(Hashes[6].Value));
+            return t;
         }
 
         public void PostServer(GServer server)
@@ -52,6 +61,22 @@ namespace ServerData.src.redis.server
         public void DeleteServer(string serverName)
         {
             redisController.database.KeyDelete(serverName);
+        }
+
+        public void UpdateServers()
+        {
+            int id = 1;
+            string name = "GameServer" + "-" + id;
+            while (redisController.database.KeyExists(name))
+            {
+                GServer a = GetServer(name);
+                if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - a.lastPing.Millisecond < ServerExpiry)
+                {
+                    DeleteServer(a);
+                }
+                id += 1;
+                name = "GameServer" + "-" + id;
+            }
         }
     }
 }

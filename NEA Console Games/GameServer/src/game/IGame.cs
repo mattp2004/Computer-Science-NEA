@@ -1,4 +1,5 @@
-﻿using ServerData.src.network;
+﻿using GameServer.src.network;
+using ServerData.src.network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +9,30 @@ using System.Threading.Tasks;
 
 namespace GameServer.src.game
 {
-    public interface IGame
+    public enum GameStatus
+    {
+        WAITING,
+        STARTING,
+        PLAYING,
+        ENDING
+    }
+
+    interface IGame
     {
         #region Properties
         string GameName { get; }
-
         int RequiredPlayers { get; }
-
         int MaxPlayers { get; }
-        #endregion // Properties
+        int PlayerCount { get; }
+        GameStatus GetStatus { get; }
+        #endregion
 
         #region Functions
-        bool AddPlayer(Client player);
-
-        void DisconnectClient(Client client);
+        bool OnPlayerJoin(Client player);
+        void OnPlayerQuit(Client player);
+        void Boot();
         void Start();
+        void End();
         #endregion // Functions
     }
 }

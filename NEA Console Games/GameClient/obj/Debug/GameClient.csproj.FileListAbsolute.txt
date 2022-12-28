@@ -14,3 +14,19 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.CopyComplete
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.exe
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.pdb
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\GameClient.exe.config
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\GameClient.exe
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\GameClient.pdb
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.exe
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.pdb
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\ServerData.exe.config
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\Newtonsoft.Json.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.AssemblyReference.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.SuggestedBindingRedirects.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.CoreCompileInputs.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.csproj.CopyComplete
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.exe
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\GameClient\obj\Debug\GameClient.pdb

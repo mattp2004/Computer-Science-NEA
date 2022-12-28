@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\NEA Console Games",
+    "\\NEA Console Games\\ServerData",
+    "\\NEA Console Games\\ServerData\\src",
+    "\\NEA Console Games\\ServerData\\src\\data",
+    "\\NEA Console Games\\ServerData\\src\\network",
+    "\\NEA Console Games\\ServerData\\src\\redis",
+    "\\NEA Console Games\\ServerData\\src\\redis\\server"
+  ],
+  "SelectedNode": "\\NEA Console Games\\ServerData\\src\\redis\\server\\GServer.cs",
+  "PreviewInSolutionExplorer": false
+}

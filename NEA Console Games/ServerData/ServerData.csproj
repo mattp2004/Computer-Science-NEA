@@ -276,6 +276,7 @@
     <Compile Include="src\api\Controllers\account\CreateAccountController.cs" />
     <Compile Include="src\api\Controllers\account\LoginController.cs" />
     <Compile Include="src\api\Controllers\AuthController.cs" />
+    <Compile Include="src\api\Controllers\server\ServerController.cs" />
     <Compile Include="src\api\Controllers\util\TextUtil.cs" />
     <Compile Include="src\api\Controllers\util\TokenController.cs" />
     <Compile Include="src\api\Controllers\util\UuidController.cs" />
@@ -297,8 +298,11 @@
     <Compile Include="src\redis\RedisController.cs" />
     <Compile Include="src\redis\server\ServerRepository.cs" />
     <Compile Include="src\sql\DbConfig.cs" />
+    <Compile Include="src\sql\game\SqlGameRepository.cs" />
     <Compile Include="src\sql\SQLController.cs" />
     <Compile Include="src\sql\SqlRepository.cs" />
+    <Compile Include="src\stats\Stats.cs" />
+    <Compile Include="src\stats\StatsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

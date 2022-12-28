@@ -13,6 +13,7 @@ namespace GameClient.src.Util
         public static bool Animations = true;
         public static ConsoleColor defaultColor = ConsoleColor.White;
         public static string Version = "0.1";
+        public static string Title = $"Console Games [v{Client.Version}]";
 
         public static void WriteLine(string message)
         {
@@ -56,8 +57,9 @@ namespace GameClient.src.Util
         {
             Console.CursorVisible = true;
             WriteLine("INPUT: ");
-            return Console.ReadLine();
+            string input = Console.ReadLine();
             Console.CursorVisible = false;
+            return input;
         }
     }
 }

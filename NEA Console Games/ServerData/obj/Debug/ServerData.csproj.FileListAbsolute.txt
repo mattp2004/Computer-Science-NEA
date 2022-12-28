@@ -34,3 +34,39 @@ C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Conso
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.CopyComplete
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.exe
 C:\Users\dcsbg\Desktop\Desktop\School Work\CS\NEA\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.pdb
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\ServerData.exe.config
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\ServerData.exe
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\ServerData.pdb
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\BouncyCastle.Crypto.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Google.Protobuf.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Compression.LZ4.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Compression.LZ4.Streams.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\K4os.Hash.xxHash.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.Host.HttpListener.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Microsoft.Owin.Hosting.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\MySql.Data.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Newtonsoft.Json.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\Pipelines.Sockets.Unofficial.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\StackExchange.Redis.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Buffers.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Diagnostics.PerformanceCounter.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.IO.Pipelines.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Memory.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Threading.Channels.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\bin\Debug\System.Web.Http.Owin.xml
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.AssemblyReference.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.SuggestedBindingRedirects.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.CoreCompileInputs.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.Fody.CopyLocal.cache
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.Fody.RuntimeCopyLocal.cache
+C:\Users\matt\source\repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.csproj.CopyComplete
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.exe
+C:\Users\matt\Source\Repos\dcdbee\Computer-Science-NEA\NEA Console Games\ServerData\obj\Debug\ServerData.pdb

@@ -4,6 +4,7 @@ using ServerData.src.redis;
 using ServerData.src.redis.auth;
 using ServerData.src.redis.server;
 using ServerData.src.sql;
+using ServerData.src.sql.game;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace GameServer.src.data
         public AccountRepository accountRepository;
         public AuthRepository authRepository;
 
+        public SqlGameRepository sqlGameRepository;
+
         public DataManager()
         {
             instance = this;
@@ -35,6 +38,8 @@ namespace GameServer.src.data
             sqlRepository = new SqlRepository(sqlController);
             serverRepository = new ServerRepository(redisController);
             accountRepository = new AccountRepository(sqlRepository);
+
+            sqlGameRepository = new SqlGameRepository(sqlController);
         }
     }
 }

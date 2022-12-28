@@ -24,7 +24,19 @@ namespace GameServer
     {
         static void Main()
         {
-            //DataManager dataManager = new DataManager();
+            ////Count of amount of times a place in a game occurs
+            //SELECT Accounts.username, GameType.GameName, COUNT(*), Place FROM GamePlayers Join Accounts ON GamePlayers.Accounts_ID = Accounts.id Join GameInstance on GameInstance.id = GamePlayers.GameInstance_ID Join GameType ON GameType.id = GameInstance.GameType_ID where Accounts.username = 'matt' and GameType.GameName = 'BLACKJACK' GROUP BY Accounts.username, GameType.GameName, Place;
+
+            ////Amount of times player won RPS
+            //SELECT Accounts.username, GameType.GameName, COUNT(*), Place FROM GamePlayers Join Accounts ON GamePlayers.Accounts_ID = Accounts.id Join GameInstance on GameInstance.id = GamePlayers.GameInstance_ID Join GameType ON GameType.id = GameInstance.GameType_ID where Accounts.username = 'matt' and GameType.GameName = 'BLACKJACK' and GamePlayers.Place = 1 GROUP BY Accounts.username, GameType.GameName, Place;
+
+            //SELECT* FROM Players Join Accounts ON Players.Accounts_ID = Accounts.id Join GameInstance on GameInstance.id = Players.GameInstance_ID Join GameType ON GameType.id = GameInstance.GameType_ID where Accounts.username = 'Bob' and GameType.GameName = 'RPS';
+
+
+
+            //AMOUNT OF TIMES USER PLAYED THAT GAME
+            //SELECT Accounts.username, GameType.GameName, COUNT(*) FROM Players Join Accounts ON Players.Accounts_ID = Accounts.id Join GameInstance on GameInstance.id = Players.GameInstance_ID Join GameType ON GameType.id = GameInstance.GameType_ID GROUP BY Accounts.username, GameType.GameName
+            ////DataManager dataManager = new DataManager();
             BootUp();
             Server _server = new Server();
             _server.Boot();

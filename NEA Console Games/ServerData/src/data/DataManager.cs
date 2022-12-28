@@ -1,9 +1,11 @@
 ﻿using ServerData.src.account;
 using ServerData.src.api;
+using ServerData.src.network;
 using ServerData.src.redis;
 using ServerData.src.redis.auth;
 using ServerData.src.redis.server;
 using ServerData.src.sql;
+using ServerData.src.sql.game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,7 @@ namespace ServerData.src.data
         public ServerRepository serverRepo;
         public List<Thread> Tasks;
         public API api;
+        public SqlGameRepository sqlGameRepository;
 
         public DataManager()
         {
@@ -40,10 +43,13 @@ namespace ServerData.src.data
             authRepo = new AuthRepository(redisController);
             serverRepo = new ServerRepository(redisController);
             api = new API(Config.port);
+            sqlGameRepository = new SqlGameRepository(sqlController);
         }
 
         public void Run()
         {
+            sqlGameRepository.PopulateDataTables();
+            
             Thread updater = new Thread(UpdateData);
             updater.Start();
             Tasks.Add(updater);
@@ -55,6 +61,7 @@ namespace ServerData.src.data
             while (true)
             {
                 authRepo.UpdateKeys();
+                serverRepo.UpdateServers();
                 Thread.Sleep(240);
             }
         }

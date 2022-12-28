@@ -9,7 +9,8 @@ namespace ServerData.src.data
     public enum Games
     {
         RPS,
-        GUESS
+        GUESS,
+        BLACKJACK
     }
 
 }

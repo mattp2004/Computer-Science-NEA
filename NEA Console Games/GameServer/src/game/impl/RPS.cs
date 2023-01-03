@@ -226,19 +226,17 @@ namespace GameServer.src.game.impl
             Status = GameStatus.ENDING;
             EndTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             Instance.sqlGameRepository.PostGame(ServerData.src.data.Games.RPS, PlayerPlace, StartTime, EndTime);
-            foreach(Client a in Players)
+            foreach(Client a in Players.ToArray())
             {
                 Instance.accountRepository.GiveTokens(a.GetAccount(), 250);
                 Server.SendMessageAll(Players, "You have been awarded 250 tokens for playing!");
             }
             Thread.Sleep(5000);
-            foreach (Client a in Players)
+            foreach (Client a in Players.ToArray())
             {
-                Instance.Clients.Remove(a);
                 Instance.DisconnectClient(a, "Game ending...");
                 Thread.Sleep(10);
             }
-            Players.Clear();
             Thread.Sleep(1000);
         }
 

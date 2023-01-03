@@ -255,6 +255,7 @@
     <Compile Include="src\data\DataManager.cs" />
     <Compile Include="src\game\IGame.cs" />
     <Compile Include="src\game\impl\BLACKJACK.cs" />
+    <Compile Include="src\game\impl\RPS.cs" />
     <Compile Include="src\misc\Util.cs" />
     <Compile Include="src\network\Packet.cs" />
     <Compile Include="src\network\Server.cs" />

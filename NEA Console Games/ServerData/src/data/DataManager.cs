@@ -6,6 +6,7 @@ using ServerData.src.redis.auth;
 using ServerData.src.redis.server;
 using ServerData.src.sql;
 using ServerData.src.sql.game;
+using ServerData.src.stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace ServerData.src.data
         public List<Thread> Tasks;
         public API api;
         public SqlGameRepository sqlGameRepository;
+        public StatsRepository statsRepo;
 
         public DataManager()
         {
@@ -44,12 +46,25 @@ namespace ServerData.src.data
             serverRepo = new ServerRepository(redisController);
             api = new API(Config.port);
             sqlGameRepository = new SqlGameRepository(sqlController);
+            statsRepo = new StatsRepository(sqlController);
         }
 
         public void Run()
         {
             sqlGameRepository.PopulateDataTables();
-            
+            Stats s = statsRepo.GetStatsFromUsername("matt");
+            foreach(var g in s.GameWins)
+            {
+                Console.WriteLine("WINS: " + g.Key + ": " + g.Value);
+            }
+            foreach (var g in s.GameLosses)
+            {
+                Console.WriteLine("LOSSES: " + g.Key + ": " + g.Value);
+            }
+            foreach (var g in s.GamesPlayed)
+            {
+                Console.WriteLine("PLAYED: " + g.Key + ": " + g.Value);
+            }
             Thread updater = new Thread(UpdateData);
             updater.Start();
             Tasks.Add(updater);

@@ -25,12 +25,14 @@ namespace GameClient.src.data
         public Games GameSelected;
         public string Username;
         public AccountSet account;
+        public string CustomGameCode;
 
         public DataManager()
         {
             instance = this;
             apiController = new ApiController();
             apiRepo = new ApiRepository(apiController);
+            CustomGameCode = null;
         }
 
         public void Login()

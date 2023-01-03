@@ -38,11 +38,19 @@ namespace GameServer.src.game.impl
         {
             get { return Status; }
         }
+
+        public string GetCode
+        {
+            get { return Code; }
+        }
         #endregion
 
         public Server Instance;
         public List<Client> Players;
         public GameStatus Status;
+        public string Code;
+        public int CountdownTime = 30;
+        public int CurrentCountdown;
 
         public long StartTime;
         public long EndTime;
@@ -51,6 +59,8 @@ namespace GameServer.src.game.impl
         {
             Instance = instance;
             Players = new List<Client>();
+            Code = ServerData.src.data.DataUtil.GenerateToken();
+            CurrentCountdown = CountdownTime;
         }
 
         public void Boot()
@@ -58,23 +68,35 @@ namespace GameServer.src.game.impl
             Status = GameStatus.WAITING;
             while(Status == GameStatus.WAITING)
             {
-                if (Players.Count > 1)
+                if (Players.Count > RequiredPlayers)
+                {
+                    CurrentCountdown--;
+                    Thread.Sleep(1000);
+                }
+                else { CurrentCountdown = CountdownTime; continue; }
+                if(CurrentCountdown <= 0)
                 {
                     StartTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    Console.WriteLine("Game start");
                     Status = GameStatus.STARTING;
-                    Thread.Sleep(5000);
-                    Status = GameStatus.PLAYING;
-                    End();
+                    Start();
                 }
             }
+        }
+        public void Start()
+        {
+            Status = GameStatus.STARTING;
+            while (Status == GameStatus.PLAYING)
+            {
+
+            }
+            End();
         }
 
         public void End()
         {
             Dictionary<string, string> PlayerPlace = new Dictionary<string, string>();
 
-            Status = GameStatus.STARTING;
+            Status = GameStatus.ENDING;
             foreach (Client c in Players)
             {
                 PlayerPlace.Add(c.GetAccount().GetID().ToString(), "2");
@@ -100,11 +122,17 @@ namespace GameServer.src.game.impl
         public void OnPlayerQuit(Client player)
         {
             Players.Remove(player);
-        }
-
-        public void Start()
-        {
-            throw new NotImplementedException();
+            if(Players.Count < RequiredPlayers)
+            {
+                if(Status == GameStatus.PLAYING)
+                {
+                    End();
+                }
+                if (Status == GameStatus.STARTING || Status == GameStatus.WAITING)
+                {
+                    CurrentCountdown = CountdownTime; 
+                }
+            }
         }
     }
 }

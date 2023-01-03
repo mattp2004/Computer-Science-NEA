@@ -277,6 +277,7 @@
     <Compile Include="src\api\Controllers\account\LoginController.cs" />
     <Compile Include="src\api\Controllers\AuthController.cs" />
     <Compile Include="src\api\Controllers\server\ServerController.cs" />
+    <Compile Include="src\api\Controllers\stats\StatsController.cs" />
     <Compile Include="src\api\Controllers\util\TextUtil.cs" />
     <Compile Include="src\api\Controllers\util\TokenController.cs" />
     <Compile Include="src\api\Controllers\util\UuidController.cs" />

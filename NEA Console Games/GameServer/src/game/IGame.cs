@@ -25,6 +25,7 @@ namespace GameServer.src.game
         int MaxPlayers { get; }
         int PlayerCount { get; }
         GameStatus GetStatus { get; }
+        string GetCode { get; }
         #endregion
 
         #region Functions

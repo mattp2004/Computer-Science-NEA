@@ -114,6 +114,7 @@ namespace GameClient.src.networking
             _cleanupNetworkResources();
             if (PreviousConnection)
             {
+                DataManager.instance.CustomGameCode = null;
                 Console.WriteLine("Disconnected.");
             }
         }
@@ -206,7 +207,15 @@ namespace GameClient.src.networking
         }
         public async Task GameSelect()
         {
-            Packet resp = new Packet("game", DataManager.GetInstance().GameSelected.ToString());
+            Packet resp;
+            if(DataManager.instance.CustomGameCode == null)
+            {
+                resp = new Packet("game", DataManager.GetInstance().GameSelected.ToString());
+            }
+            else
+            {
+                resp = new Packet("game", DataManager.GetInstance().CustomGameCode.ToString());
+            }
             Console.WriteLine("Sent packet: " + resp.Type + " " + resp.Content);
             await SendPacket(resp);
         }
@@ -220,6 +229,7 @@ namespace GameClient.src.networking
 
         private void _cleanupNetworkResources()
         {
+            DataManager.instance.CustomGameCode = null;
             stream?.Close();
             stream = null;
             client.Close();

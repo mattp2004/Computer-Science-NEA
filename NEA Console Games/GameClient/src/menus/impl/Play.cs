@@ -27,14 +27,19 @@ namespace GameClient.src.menus.impl
                 new Choice("RPS", () => SetGame(ServerData.src.data.Games.RPS)),
                 new Choice("GUESS NUMBER", () => SetGame(ServerData.src.data.Games.GUESS)),
                 new Choice("BLACKJACK", () => SetGame(ServerData.src.data.Games.BLACKJACK)),
+                new Choice("CUSTOM GAME", () => SetGame(Client.GetInput())),
                 new Choice("GO BACK", () => MenuManager.UpdateCurrent(0))
 
             };
         }
-
         public void SetGame(Games a)
         {
             DataManager.instance.GameSelected = a;
+            NetworkManager.Play();
+        }
+        public void SetGame(string code)
+        {
+            DataManager.instance.CustomGameCode = code;
             NetworkManager.Play();
         }
 

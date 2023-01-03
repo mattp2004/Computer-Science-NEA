@@ -36,7 +36,7 @@ namespace GameServer.src.network
         private static Server instance;
         private TcpListener listener;
 
-        private List<Client> Clients;
+        public List<Client> Clients;
         public Dictionary<Games, List<Client>> Queue;
         private Dictionary<Client, IGame> ClientGame;
         public List<Games> GameTypes;
@@ -122,10 +122,17 @@ namespace GameServer.src.network
             {
                 foreach (Client c in Clients.ToArray())
                 {
-                    bool disconnected = false;
-                    disconnected = isDisconnected(c);
-                    if (disconnected)
-                    { HandleDisconnectedClient(c); Console.WriteLine("Disconnecting client " + c.GetAccount().GetUsername()); }
+                    bool inGame = false;
+                    if (ClientGame.ContainsKey(c)){
+                        inGame = true;
+                    }
+                    if (!inGame)
+                    {
+                        bool disconnected = false;
+                        disconnected = isDisconnected(c);
+                        if (disconnected)
+                        { HandleDisconnectedClient(c); Console.WriteLine("Disconnecting client " + c.GetAccount().GetUsername()); }
+                    }
                 }
                 Thread.Sleep(10);
             }
@@ -229,6 +236,11 @@ namespace GameServer.src.network
                         {
                             game = new BLACKJACK(this);
                             Console.WriteLine("Created new blackjack game");
+                        }
+                        else if (g == ServerData.src.data.Games.RPS)
+                        {
+                            game = new RPS(this);
+                            Console.WriteLine("Created new RPS game");
                         }
                         if (game != null)
                         {
@@ -403,8 +415,33 @@ namespace GameServer.src.network
                 Console.WriteLine($"New client with uuid {uuid} connected from {newTCPClient.Client.RemoteEndPoint}");
                 string gameSelection = RequestGame(newTCPClient).GetAwaiter().GetResult();
                 Games game;
-                Enum.TryParse(gameSelection, out game);
-                Queue[game].Add(client);
+                try
+                {
+                    Enum.TryParse(gameSelection, out game);
+                    Queue[game].Add(client);
+                }
+                catch (Exception)
+                {
+                    //Potential game join code
+                    IGame JoinCodeGame = null;
+                    foreach(var g in Games)
+                    {
+                        foreach(IGame ga in g.Value)
+                        {
+                            if (ga.GetCode == gameSelection)
+                            {
+                                JoinCodeGame = ga;
+                            }
+                        }
+                    }
+                    if(JoinCodeGame != null)
+                    {
+                        if(JoinCodeGame.PlayerCount < JoinCodeGame.MaxPlayers && JoinCodeGame.GetStatus == GameStatus.WAITING)
+                        {
+                            JoinCodeGame.OnPlayerJoin(client);
+                        }
+                    }
+                }
                 return client;
             }
             catch(Exception e)

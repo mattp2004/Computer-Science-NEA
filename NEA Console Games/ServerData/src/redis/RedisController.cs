@@ -19,11 +19,13 @@ namespace ServerData.src.redis
     {
         public IDatabase database { get; }
         public RedisStatus status { get; set; }
+
         public RedisController()
         {
             status = RedisStatus.DISCONNECTED;
             try
             {
+                //Connect to redis database
                 var conn = ConnectionMultiplexer.Connect($"localhost:{RedisConfig.PORT},password={RedisConfig.AUTH}");
                 database = conn.GetDatabase();
                 if (conn.IsConnected)

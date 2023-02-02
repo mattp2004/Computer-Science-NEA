@@ -63,7 +63,7 @@ namespace GameServer
             Util.GenerateLog();
 
             Util.Write($"Starting {Config.serverName} at {DateTime.Now}");
-            Util.Write($"Details:");
+             Util.Write($"Details:");
             Util.Write($"- IP: {Config.serverIP}");
             Util.Write($"- Port: {Config.serverPort}");
             Util.Write($"- DevServer: {Config.DevServer}");

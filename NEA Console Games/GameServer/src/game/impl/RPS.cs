@@ -79,6 +79,7 @@ namespace GameServer.src.game.impl
 
         public void Boot()
         {
+            Console.WriteLine("SERVER CODE: " + GetCode);
             Status = GameStatus.WAITING;
             while (Status == GameStatus.WAITING)
             {
@@ -234,7 +235,7 @@ namespace GameServer.src.game.impl
             Thread.Sleep(5000);
             foreach (Client a in Players.ToArray())
             {
-                Instance.DisconnectClient(a, "Game ending...");
+                Instance.Disconnect(a, "Game ending...");
                 Thread.Sleep(10);
             }
             Thread.Sleep(1000);

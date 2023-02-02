@@ -131,7 +131,7 @@ namespace GameServer.src.network
                         bool disconnected = false;
                         disconnected = isDisconnected(c);
                         if (disconnected)
-                        { HandleDisconnectedClient(c); Console.WriteLine("Disconnecting client " + c.GetAccount().GetUsername()); }
+                        { RemoveDisconnectedClient(c); Console.WriteLine("Disconnecting client " + c.GetAccount().GetUsername()); }
                     }
                 }
                 Thread.Sleep(10);
@@ -306,7 +306,7 @@ namespace GameServer.src.network
             try
             {
                 Socket clientSocket = client.tcpClient.Client;
-                return clientSocket.Poll(10 * 1000, SelectMode.SelectRead) && (clientSocket.Available == 0);
+                return (clientSocket.Poll(1, SelectMode.SelectRead) && clientSocket.Available == 0);
             }
             catch (SocketException)
             {
@@ -316,10 +316,9 @@ namespace GameServer.src.network
         }
 
         //graceful disconnect server kicks player off when game over etc
-        public void DisconnectClient(Client client, string msg = "null")
+        public void Disconnect(Client client, string msg = "null")
         {
             Util.Log($"DISCONNECTED CLIENT {client.uuid} with msg {msg}");
-
 
             Task DisconnectPacket = instance.SendPacket(client.tcpClient, new Packet("disconnect", msg));
 
@@ -331,13 +330,13 @@ namespace GameServer.src.network
             catch (Exception e) { Util.Error(e); Util.Log(e.Message); Console.WriteLine("DEBUG: {0}", e.Message); }
             Thread.Sleep(100);
             DisconnectPacket.GetAwaiter().GetResult();
-            HandleDisconnectedClient(client);
+            RemoveDisconnectedClient(client);
 
         }
 
 
         //when player decides to leave before the game is over.
-        public void HandleDisconnectedClient(Client client)
+        public void RemoveDisconnectedClient(Client client)
         {
             try
             {
@@ -379,7 +378,6 @@ namespace GameServer.src.network
         {
             //Accepts any pending connections 
             TcpClient newClient = await listener.AcceptTcpClientAsync();
-
             Client client = ValidateConnection(newClient);
             if(client != null)
             {
@@ -414,6 +412,7 @@ namespace GameServer.src.network
                 Util.Debug($"Validated client {newTCPClient.Client.RemoteEndPoint}");
                 Console.WriteLine($"New client with uuid {uuid} connected from {newTCPClient.Client.RemoteEndPoint}");
                 string gameSelection = RequestGame(newTCPClient).GetAwaiter().GetResult();
+                Console.WriteLine(gameSelection);
                 Games game;
                 try
                 {
@@ -582,7 +581,7 @@ namespace GameServer.src.network
             Packet Answer = instance.ReceivePacket(client.tcpClient).GetAwaiter().GetResult();
             if(Answer.Type == "disconnect")
             {
-                Server.instance.HandleDisconnectedClient(client);
+                Server.instance.RemoveDisconnectedClient(client);
             }
             response += Answer.Content;
             Util.Debug($"Recieved input '{response}' from [{client.uuid}]");

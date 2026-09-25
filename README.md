@@ -50,15 +50,15 @@ C#, .NET, `System.Net.Sockets`, Newtonsoft.Json, ASP.NET Web API + OWIN, StackEx
 ```
 NEA Console Games/   Final solution: GameClient, GameServer and ServerData (REST API) projects
 NEA Prototype/       Early TCP client/server prototype used to test the networking approach
-Scripts/             Server and deployment scripts   <!-- TODO: confirm what's in here -->
-CD/                  <!-- TODO: describe -->
+Scripts/             Server and deployment scripts  
+CD/         
 ```
 
 ## Running it
 
 This was built and hosted on a VPS in 2022, and that environment no longer exists, so the project isn't maintained as a runnable deployment. To run it locally you would need MariaDB and Redis running, with the connection details set in the server and API config. Then start **ServerData**, then **GameServer**, then two or more **GameClient** instances from the solution in Visual Studio.
 
-The NEA write-up documents the full design, database schema and test plan. <!-- TODO: optionally add the write-up PDF (with candidate/centre numbers removed) and link it here -->
+The NEA write-up documents the full design, database schema and test plan. 
 
 ## Testing
 
